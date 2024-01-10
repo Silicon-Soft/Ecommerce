@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "ReadProduct";
+}
+@model Ecommerce.ViewModel.ReadProductVM;
+<h1>ReadProduct</h1>
+<div class="d-flex" style="display: flex; flex-wrap: wrap;">
+
+    <div class="w-50" style="border: 1px solid #ddd; padding: 10px; margin: 10px;">
+        <p><strong>Product Name:</strong>@Model.ProductName </p>
+        <p><strong>Product Description:</strong> @Model.ProductDescription</p>
+        <p><strong>Sell Price:</strong> @Model.SellPrice</p>
+      
+    </div>
+    <div class="w-50">
+        <img src="@Url.Content($"~/Product/{Model.imageLink}")" alt="ProductName" class="img-fluid" style="max-height:50vh" />
+    </div>
+<div class="col-6">
+            <a asp-controller="Product" asp-action="ViewProduct" class="btn btn-secondary">
+                GO-BACK
+            </a>
+</div>
+    
+
+</div>
+

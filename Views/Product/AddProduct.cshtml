@@ -1,0 +1,56 @@
+﻿<h1>
+    Add product
+</h1>
+@model Ecommerce.ViewModel.CreateProductVM
+
+<form method="post" asp-action="AddProduct" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary"> Create Product</h2>
+            <hr />
+            <div class="mb-3 row">
+                <label asp-for="ProductName"> ProductName:</label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label class="form-label"> Category:</label>
+                <select class="form-select" asp-items="@Model.CategoriesSelectList" asp-for="SelectedCategory"></select>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3 row">
+                <label asp-for="ProductDescription">ProductDescription:</label>
+                <textarea asp-for="ProductDescription" class="form-control" ></textarea>
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="SellPrice">SellPrice:</label>
+                <input asp-for="SellPrice" class="form-control" />
+                <span asp-validation-for="SellPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row">
+                <label asp-for="imagefile">Product Image:</label>
+                <input asp-for="imagefile" type="file" class="form-control" />
+                <span asp-validation-for="imagefile" class="text-danger"></span>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-6">
+                <button class="btn btn-primary col-6" type="submit" style="width:150px">
+                Create
+            </button>
+            </div>
+      
+        <div class="col-6">
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">
+            GO-BACK
+        </a>
+                </div>
+        </div>
+        </div>
+    </div>
+</form>

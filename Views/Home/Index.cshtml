@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<Ecommerce.ViewModel.ViewProductVM>
+<div class="text-center" >
+    <div class="d-flex justify-content-between" >
+        <form  method="get" class="d-flex w-100">
+            <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search By ProductName" aria-label="Search" name="searching">
+            <button class="btn btn-outline-success my-2 my-sm-0 ms-5 " type="submit" >Search</button>
+        </form>
+
+        <button class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3 d">
+            <span class="position-absolute">10</span>
+            <img src="~/Product/cart.svg" />
+        </button>
+     </div>
+</div>
+<div id="carouselExampleControls" class="carousel">
+    <div class="carousel-inner">
+
+            @if(Model.Count()==0)
+            {
+               <h1>No Match Found:</h1>
+            }
+        
+             else 
+             {
+             @foreach (var obj in Model)
+            {
+                <div class="carousel-item active">
+                <div class="card">
+                    <div class="img-wrapper"><img src="@Url.Content($"~/Product/{obj.imageLink}")" class="d-block w-100" alt="..."> </div>
+                        <div class="card-body" style="cursor:pointer;" onclick="redirectToProductDetail()">
+                    
+                    <h5 class="card-title">@obj.ProductName</h5>
+                    
+                            @if (obj.ProductDescription.Length > 40)
+                            {
+                                <p class="card-text w-10">
+                                  @obj.ProductDescription.Substring(0,20)..........     
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="card-text w-10">
+                                    @obj.ProductDescription
+                                </p>
+
+                                
+                            }
+
+                    <div class="d-flex">
+                    
+                    <p class="text-decorastion-underline text-success">Prize:@obj.SellPrice</p>
+                    <a id="productDetailLink" asp-controller="Home" asp-action="ProductDetail" ></a>
+                            <a  class="btn btn-primary ms-lg-5 ">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+            }
+            }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div>
+
+</div>
+<script>
+    
+        function redirectToProductDetail() {
+            // Trigger the click event of the hidden anchor element to navigate to ProductDetail
+            document.getElementById('productDetailLink').click();
+        }
+
+</script>

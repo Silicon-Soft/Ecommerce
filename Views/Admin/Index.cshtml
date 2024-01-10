@@ -1,0 +1,35 @@
+﻿<h1>Welcome to the Admin Pannel.</h1>
+
+<div class="col-7 p-3">
+    <a asp-controller="Admin" asp-action="AddCategory" class="btn btn-primary">
+        Create New Category
+    </a>
+    <a asp-controller="Product" asp-action="AddProduct" class="btn btn-primary">
+        Create New Product
+    </a>
+    <a asp-controller="Product" asp-action="ViewProduct" class="btn btn-primary">
+        All Products
+    </a>
+    <a asp-controller="Admin" asp-action="ViewOrders" class="btn btn-primary">
+        All Orders
+    </a>
+
+</div>
+
+    @if (TempData["ResultOk"] != null)
+    {
+
+        <dialog open>
+            <form method="dialog">
+                
+                <h1 class="alert-success">@TempData["ResultOk"]</h1>
+                <button type="submit">OK</button>
+            </form>
+        </dialog>
+
+    
+
+        
+    }
+
+
