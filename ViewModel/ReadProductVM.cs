@@ -13,6 +13,10 @@ namespace Ecommerce.ViewModel
         public decimal SellPrice { get; set; }
         public string imageLink { get; set; }
 
-      
+        public int CategoryId { get; set; }
+
+        public string CategoryName { get; set; }
+
+
     }
 }

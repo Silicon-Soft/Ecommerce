@@ -30,13 +30,14 @@
                 <div class="carousel-item active">
                 <div class="card">
                     <div class="img-wrapper"><img src="@Url.Content($"~/Product/{obj.imageLink}")" class="d-block w-100" alt="..."> </div>
+                        <a id="productDetailLink" asp-controller="Home" asp-action="ProductDetail" asp-route-id="@obj.ProductID" class="text-decoration-none">
                         <div class="card-body" style="cursor:pointer;" onclick="redirectToProductDetail()">
                     
                     <h5 class="card-title">@obj.ProductName</h5>
                     
                             @if (obj.ProductDescription.Length > 40)
                             {
-                                <p class="card-text w-10">
+                                <p class="card-text w-10 text-black">
                                   @obj.ProductDescription.Substring(0,20)..........     
                                 </p>
                             }
@@ -50,14 +51,15 @@
                             }
 
                     <div class="d-flex">
-                    
                     <p class="text-decorastion-underline text-success">Prize:@obj.SellPrice</p>
-                    <a id="productDetailLink" asp-controller="Home" asp-action="ProductDetail" ></a>
-                            <a  class="btn btn-primary ms-lg-5 ">Add to Cart</a>
+                    
+                    <a  class="btn btn-primary ms-lg-5 ">Add to Cart</a>
                     </div>
                 </div>
+                </a>
             </div>
             </div>
+             
             }
             }
     </div>
@@ -73,11 +75,4 @@
 <div>
 
 </div>
-<script>
-    
-        function redirectToProductDetail() {
-            // Trigger the click event of the hidden anchor element to navigate to ProductDetail
-            document.getElementById('productDetailLink').click();
-        }
 
-</script>

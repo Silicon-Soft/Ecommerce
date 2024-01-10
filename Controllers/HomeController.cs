@@ -42,10 +42,27 @@ namespace Ecommerce.Controllers
             }
         }
 
-
-    public IActionResult ProductDetail()
+    public IActionResult ProductDetail(int id)
         {
-            return View();
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+
+            ReadProductVM readProductVM=_productService.GetReadProductVM(id);
+
+            if (readProductVM == null)
+            {
+                return NotFound();
+            }
+            return View(readProductVM);
+
+
+        }
+    [HttpPost]
+    public IActionResult ProductDetail(ReadProductVM readProductVM)
+        {
+            return View(readProductVM);
         }
 
     

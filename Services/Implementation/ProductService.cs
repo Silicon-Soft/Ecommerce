@@ -137,6 +137,8 @@ namespace Ecommerce.Services.Implementation
             {
                 Product product = _genericReopsitory.GetById(id);
                 ReadProductVM readProductVM = _mapper.Map<ReadProductVM>(product);
+                CategoryVM categoryVM=_categoryService.GetCategory(readProductVM.CategoryId);
+                readProductVM.CategoryName=categoryVM.CategoryName;
                 return readProductVM;
             }
             catch (Exception)
