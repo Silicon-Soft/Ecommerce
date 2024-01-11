@@ -1,6 +1,10 @@
-﻿namespace Ecommerce.Services.Interface
+﻿using Ecommerce.ViewModel;
+
+namespace Ecommerce.Services.Interface
 {
-    public class ICartService
+    public interface ICartService
     {
+        CartVM createCart();
+        bool IsCartEmpty(string id);
     }
 }

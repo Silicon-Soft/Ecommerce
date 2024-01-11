@@ -23,6 +23,7 @@ namespace Ecommerce.Data
         {
             modelBuilder.Entity<Cart_item>()
                 .HasNoKey();
+            
 
             base.OnModelCreating(modelBuilder);
         }

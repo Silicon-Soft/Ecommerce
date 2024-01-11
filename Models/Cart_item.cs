@@ -4,12 +4,12 @@ namespace Ecommerce.Models
 {
     public class Cart_item
     {
-        public int quantity { get; set; }
-        public virtual Cart cart { get; set; }
-        [ForeignKey(nameof(cart))]
         public int CartId { get; set; }
-        public virtual Product Product { get; set; }
-        [ForeignKey(nameof(Product))]
+        [ForeignKey("CartId")]
+        public virtual Cart Cart { get; set; }  
+
         public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
     }
 }

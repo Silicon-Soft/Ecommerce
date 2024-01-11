@@ -25,10 +25,15 @@ namespace Ecommerce
                  .AddDefaultTokenProviders();
             builder.Services.AddScoped<ICategoryService,CategoryService>();
             builder.Services.AddScoped<IProductService,ProductService>();
-
+            builder.Services.AddScoped<ICartService,CartService>();
+            builder.Services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
             builder.Services.AddScoped(typeof(IGenericReopsitory<>), typeof(GenericRepository<>));
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddDistributedMemoryCache();
+            
 
 
 

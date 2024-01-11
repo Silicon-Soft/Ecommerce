@@ -17,5 +17,6 @@ namespace Ecommerce.ViewModel
 
         public string CategoryName { get; set; }
 
+
     }
 }

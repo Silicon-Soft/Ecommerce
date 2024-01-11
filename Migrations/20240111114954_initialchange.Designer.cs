@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20231231152530_cutomizedidentity")]
-    partial class cutomizedidentity
+    [Migration("20240111114954_initialchange")]
+    partial class initialchange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,15 +32,16 @@ namespace Ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"), 1L, 1);
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("total")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("CartId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -51,9 +52,6 @@ namespace Ecommerce.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.HasIndex("CartId");
@@ -393,18 +391,18 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Cart", b =>
                 {
-                    b.HasOne("Ecommerce.Models.Order", "Order")
+                    b.HasOne("Ecommerce.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Cart_item", b =>
                 {
-                    b.HasOne("Ecommerce.Models.Cart", "cart")
+                    b.HasOne("Ecommerce.Models.Cart", "Cart")
                         .WithMany()
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -416,9 +414,9 @@ namespace Ecommerce.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Cart");
 
-                    b.Navigation("cart");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Order", b =>
