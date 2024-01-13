@@ -8,5 +8,6 @@ namespace Ecommerce.GenericRepository.Interface
         T GetById(int id);
         void Delete(int id);
         void Update(T obj);
+        IQueryable<T> GetDatas();
     }
 }

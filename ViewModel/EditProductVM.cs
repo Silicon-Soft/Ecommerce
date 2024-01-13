@@ -2,8 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecommerce.ViewModel
-{
+
     public class EditProductVM
     {
         [Key]
@@ -21,4 +20,4 @@ namespace Ecommerce.ViewModel
         [Required]
         public IFormFile imagefile { get; set; }
     }
-}
+

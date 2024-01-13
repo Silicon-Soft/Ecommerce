@@ -1,7 +1,6 @@
 ﻿using Ecommerce.GenericRepository.Interface;
 using Ecommerce.Models;
 using Ecommerce.Services.Interface;
-using Ecommerce.ViewModel;
 
 namespace Ecommerce.Services.Implementation
 {
@@ -12,15 +11,18 @@ namespace Ecommerce.Services.Implementation
         {
             _genericReopsitory = genericReopsitory;
         }
-        public CartVM createCart()
+        
+        public bool IsCartEmpty(string userId)
         {
-            CartVM cartVM = new();
-            return cartVM;
-        }
-        public bool IsCartEmpty(string id)
-        {
-
-            return true;
+            IEnumerable<Cart> carts = _genericReopsitory.GetDatas().Where(x => x.UserId == userId);
+            if (carts == null)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
     }
 }

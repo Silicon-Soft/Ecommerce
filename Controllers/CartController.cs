@@ -15,9 +15,12 @@ namespace Ecommerce.Controllers
     {
         private  UserManager<User> _user;
         private readonly ICartService _cartService;
-        private readonly IGenericReopsitory<Product> _genericReopsitory;
-        public CartController (UserManager<User> user,ICartService cartService,IGenericReopsitory<Product> genericReopsitory)
+        private readonly IGenericReopsitory<Cart> _genericReopsitory;
+        private readonly IProductService _productService;
+
+        public CartController (UserManager<User> user,ICartService cartService,IGenericReopsitory<Cart> genericReopsitory,IProductService productService)
         {
+            _productService = productService;
             _genericReopsitory = genericReopsitory;
             _cartService = cartService;
             _user = user;
@@ -26,17 +29,24 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+       
+
+        [HttpPost]
         public IActionResult AddtoCart(int productId)
         {
-            string userid = _user.GetUserId(User);
-            Product product=_genericReopsitory.GetById(productId);
-            if(_cartService.IsCartEmpty(userid))
+            
+            //get the productdetail
+            ReadProductVM readProductVM = _productService.GetReadProductVM(productId);
+            string userId = _user.GetUserId(User);
+            // check if user has cart or not //user's cart is empty
+            if (_cartService.IsCartEmpty(userId))
             {
-                CartVM cartVM = _cartService.createCart();
-                cartVM.UserId = userid;
-                cartVM.products.Append(product);
+                // if empty create the cart table 
+                // create cartitem update the quantity 
+                
             }
-            return View();
+
+            return Json(new { success = true });
         }
     }
 }

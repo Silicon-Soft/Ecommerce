@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Ecommerce.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         
@@ -64,8 +64,8 @@ namespace Ecommerce.Controllers
         {
             return View(readProductVM);
         }
-
     
+
 
     public IActionResult Privacy()
          

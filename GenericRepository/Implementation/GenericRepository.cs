@@ -38,6 +38,10 @@ namespace Ecommerce.GenericRepository.Implementation
             _dbSet.Remove(_dbSet.Find(id)!);
             _dbContext.SaveChanges();
         }
+        public IQueryable<T> GetDatas()
+        {
+            return _dbSet.AsQueryable();
+        }
 
     }
 }

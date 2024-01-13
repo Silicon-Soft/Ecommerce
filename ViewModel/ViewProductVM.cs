@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿
+
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecommerce.ViewModel
-{
+
+
     public class ViewProductVM
     {
         public int ProductID { get; set; }
@@ -19,4 +20,3 @@ namespace Ecommerce.ViewModel
 
 
     }
-}
