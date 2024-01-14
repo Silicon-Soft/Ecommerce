@@ -14,6 +14,9 @@ namespace Ecommerce.MapperProfile
             CreateMap<Product, ViewProductVM>();
             CreateMap<Product,EditProductVM>().ReverseMap();
             CreateMap<Product, ReadProductVM>();
+            CreateMap<CreatecartVM, Cart>().ReverseMap();
+            CreateMap<Cart,ReadCartVM>().ReverseMap();
+            CreateMap<Cart_item, CreateCart_itemVM>().ReverseMap();
 
         }
     }

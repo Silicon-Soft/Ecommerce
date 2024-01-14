@@ -3,11 +3,11 @@ namespace Ecommerce.GenericRepository.Interface
 {
     public interface IGenericReopsitory<T> where T : class
     {
-        void Add(T obj);
+        T Add(T entity);
         List<T> GetAll();
         T GetById(int id);
         void Delete(int id);
-        void Update(T obj);
+        T Update(T entity);
         IQueryable<T> GetDatas();
     }
 }

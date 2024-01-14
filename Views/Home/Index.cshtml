@@ -21,6 +21,7 @@
     ViewData["Title"] = "Home Page";
 }
 @model IEnumerable<ViewProductVM>
+
 <div class="text-center" >
     <div class="d-flex justify-content-between" >
         <form  method="get" class="d-flex w-100">
@@ -72,11 +73,11 @@
 
                     <div class="d-flex">
                     <p class="text-decorastion-underline text-success">Prize:@obj.SellPrice</p>
-                    @if(isAdmin||isUser){
+                    @if(isAdmin||isUser)
+                    {
                                     <a class="btn btn-primary ms-lg-5" onclick="createdata(@obj.ProductID)">Add to Cart</a>
                     }
-                    
-                    
+
                     </div>
                      
 
@@ -100,6 +101,7 @@
                     type: "POST",
                     data: { productId: productId },
                     success: function (data) {
+                        alert("sucess:")
                         console.log(data);
                     },
                     error: function (err) {

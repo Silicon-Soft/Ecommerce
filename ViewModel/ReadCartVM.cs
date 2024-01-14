@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-
-    public class CreatecartVM
+namespace Ecommerce.ViewModel
+{
+    public class ReadCartVM
     {
+        public int CartId { get; set; }
         public string UserId { get; set; }
-
+     
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal total { get; set; }
-        public int CartId { get; set; }
+    }
 }
-

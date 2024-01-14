@@ -17,9 +17,11 @@ namespace Ecommerce.Controllers
         private readonly ICartService _cartService;
         private readonly IGenericReopsitory<Cart> _genericReopsitory;
         private readonly IProductService _productService;
+        private readonly ICart_ItemsService _cartItemsService;
 
-        public CartController (UserManager<User> user,ICartService cartService,IGenericReopsitory<Cart> genericReopsitory,IProductService productService)
+        public CartController (UserManager<User> user,ICartService cartService,IGenericReopsitory<Cart> genericReopsitory,IProductService productService,ICart_ItemsService cart_ItemsService)
         {
+            _cartItemsService = cart_ItemsService;
             _productService = productService;
             _genericReopsitory = genericReopsitory;
             _cartService = cartService;
@@ -41,12 +43,37 @@ namespace Ecommerce.Controllers
             // check if user has cart or not //user's cart is empty
             if (_cartService.IsCartEmpty(userId))
             {
+                CreatecartVM _createcartVM = new()
+                {
+                    UserId = userId,
+                    total = 0,
+                };
                 // if empty create the cart table 
+                CreatecartVM createcartVM = _cartService.Createcart(_createcartVM);
+                //find the cartid using userid
+                //ReadCartVM readCartVM = _cartService.ReadCart(userId);
                 // create cartitem update the quantity 
-                
+                CreateCart_itemVM createCart_ItemVM = new()
+                {
+                    CartId = createcartVM.CartId,
+                    ProductId = productId,
+                    quantity = 1
+                };
+                CreateCart_itemVM createCart_ItemVM1 = _cartItemsService.CreateCart_item(createCart_ItemVM);
+
+                // update the cart with the total 
+                createcartVM.total = readProductVM.SellPrice;
+                ReadCartVM readCart=_cartService.UpdateCart(createcartVM);
+                return Json(readCart);
+
+            }
+            else
+            {
+
+                return Json(0);
             }
 
-            return Json(new { success = true });
+           
         }
     }
 }

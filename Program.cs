@@ -6,34 +6,40 @@ using Ecommerce.GenericRepository.Implementation;
 using Ecommerce.GenericRepository.Interface;
 using Ecommerce.Services.Interface;
 using Ecommerce.Services.Implementation;
+using Microsoft.Extensions.Options;
 
 namespace Ecommerce
 {
     public class Program
     {
-        public static async Task  Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<EcommerceDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            builder.Services.AddScoped<DbContext, EcommerceDbContext>();
             builder.Services.AddIdentity<User, IdentityRole>()
                  .AddEntityFrameworkStores<EcommerceDbContext>()
                  .AddDefaultUI()
                  .AddDefaultTokenProviders();
-            builder.Services.AddScoped<ICategoryService,CategoryService>();
-            builder.Services.AddScoped<IProductService,ProductService>();
-            builder.Services.AddScoped<ICartService,CartService>();
-            builder.Services.AddSession(options => {
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICart_ItemsService, Cart_ItemsService>();
+            builder.Services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             builder.Services.AddScoped(typeof(IGenericReopsitory<>), typeof(GenericRepository<>));
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddDistributedMemoryCache();
-            
+
 
 
 

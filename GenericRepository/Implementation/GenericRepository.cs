@@ -1,47 +1,60 @@
 ﻿using Ecommerce.Data;
 using Ecommerce.GenericRepository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing.Printing;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ecommerce.GenericRepository.Implementation
 {
-    public class GenericRepository<T>:IGenericReopsitory<T> where T : class
+    public class GenericRepository<T> : IGenericReopsitory<T> where T : class
     {
         private readonly EcommerceDbContext _dbContext;
-        private DbSet<T> _dbSet;
+        private readonly DbSet<T> _dbSet;
+
         public GenericRepository(EcommerceDbContext dbContext)
-    
-        { 
+        {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
         }
+
         public List<T> GetAll()
         {
-            return _dbSet.ToList();
+            return _dbSet.AsNoTracking().ToList();
         }
+
         public T GetById(int id)
         {
-            return _dbSet.Find(id)!;
+            return _dbSet.Find(id);
         }
-        public void Add(T entity)
+
+        public T Add(T entity)
         {
             _dbSet.Add(entity);
+            //_dbSet.AsNoTracking();
             _dbContext.SaveChanges();
+            return entity;
         }
-        public void Update(T entity)
+
+        public T Update(T entity)
         {
-            _dbSet.Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified; // Mark the entity as modified
             _dbContext.SaveChanges();
+            return entity;
         }
+
         public void Delete(int id)
         {
-            _dbSet.Remove(_dbSet.Find(id)!);
-            _dbContext.SaveChanges();
+            T entityToDelete = _dbSet.Find(id);
+            if (entityToDelete != null)
+            {
+                _dbSet.Remove(entityToDelete);
+                _dbContext.SaveChanges();
+            }
         }
         public IQueryable<T> GetDatas()
         {
-            return _dbSet.AsQueryable();
-        }
 
+            return _dbSet.AsNoTracking().AsQueryable();
+        }
     }
 }

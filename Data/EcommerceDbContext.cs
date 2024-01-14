@@ -21,8 +21,7 @@ namespace Ecommerce.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cart_item>()
-                .HasNoKey();
+           
             
 
             base.OnModelCreating(modelBuilder);
