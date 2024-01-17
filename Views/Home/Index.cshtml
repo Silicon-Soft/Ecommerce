@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Ecommerce.Models
+@using Ecommerce.Services.Interface
 
+@inject ICartService cartservice
+@inject ICart_ItemsService cart_temservice
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
@@ -17,6 +20,7 @@
         }
     }
 }
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -28,10 +32,16 @@
             <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search By ProductName" aria-label="Search" name="searching">
             <button class="btn btn-outline-success my-2 my-sm-0 ms-5 " type="submit" >Search</button>
         </form>
-        <button class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3 d">
-            <span class="position-absolute">0</span>
+       
+        <button  class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3" >
+             <a asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">
+            <span class="position-absolute">
+                @cart_temservice.getCartItemQuantity(UserManager.GetUserId(User))
+            </span>
             <img src="~/Product/cart.svg" />
+            </a>
         </button>
+        
         
      </div>
 </div>
@@ -47,6 +57,7 @@
              {
              @foreach (var obj in Model)
             {
+                
                 <div class="carousel-item active">
                 <div class="card">
                     <div class="img-wrapper"><img src="@Url.Content($"~/Product/{obj.imageLink}")" class="d-block " alt="..."> </div>
@@ -73,10 +84,7 @@
 
                     <div class="d-flex">
                     <p class="text-decorastion-underline text-success">Prize:@obj.SellPrice</p>
-                    @if(isAdmin||isUser)
-                    {
-                                    <a class="btn btn-primary ms-lg-5" onclick="createdata(@obj.ProductID)">Add to Cart</a>
-                    }
+                   
 
                     </div>
                      
@@ -89,27 +97,9 @@
              
             }
             }
-            <script>
-            function createdata(id) {
-                submitform(id);
-            }
-
-            function submitform(productId) 
-            {
-                $.ajax({
-                    url: "/Cart/AddtoCart",
-                    type: "POST",
-                    data: { productId: productId },
-                    success: function (data) {
-                        alert("sucess:")
-                        console.log(data);
-                    },
-                    error: function (err) {
-                        console.error(err);
-                    }
-                });
-            }
-            </script>
+        
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+       
             
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

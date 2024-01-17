@@ -30,14 +30,13 @@ namespace Ecommerce.GenericRepository.Implementation
         public T Add(T entity)
         {
             _dbSet.Add(entity);
-            //_dbSet.AsNoTracking();
             _dbContext.SaveChanges();
             return entity;
         }
 
         public T Update(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified; // Mark the entity as modified
+             _dbContext.Entry(entity).State = EntityState.Modified; // Mark the entity as modified
             _dbContext.SaveChanges();
             return entity;
         }

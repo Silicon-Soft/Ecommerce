@@ -1,6 +1,9 @@
-﻿namespace Ecommerce.Services.Interface
+﻿using Ecommerce.ViewModel;
+
+namespace Ecommerce.Services.Interface
 {
-    public class IShippingService
+    public interface IShippingService
     {
+        CreateShippingVM CreateShipping(CreateShippingVM createShippingVM);
     }
 }

@@ -13,5 +13,7 @@ namespace Ecommerce.Services.Interface
         string CreateImage(IFormFile link);
         ReadProductVM GetReadProductVM(int id);
         string GetLinkById(int id);
+        
+        decimal GetPrice(int Productid);
     }
 }

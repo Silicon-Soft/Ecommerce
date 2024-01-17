@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Ecommerce.Models
+@using Ecommerce.Services.Interface
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model List<Ecommerce.ViewModel.ViewCart_itemVM>
+@if (TempData["Delete"] != null)
+{
+
+    <dialog open>
+        <form method="dialog">
+
+            <h1 class="alert-success">@TempData["Delete"]</h1>
+            <button type="submit">OK</button>
+        </form>
+    </dialog>
+}
+<h1>Your Cart
+<img width="50" height="50" src="https://img.icons8.com/ios/50/shopping-cart.png" alt="shopping-cart" /></h1>
+
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+               Photo
+            </th>
+            <th>
+                ProductName
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Action
+            </th>
+            <th>
+                total
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+      
+        @foreach(var obj in Model){
+            <tr>
+                
+
+                <td>
+                    <img src="@Url.Content($"~/Product/{obj.imgLink}")"  class="img-fluid" style="height:100px; " />
+                </td>
+                <td>
+                    @obj.productname
+                </td>
+                <td class="d-flex align-items-center">
+                    <button class="btn btn-outline-info p-3 px-4" style="font-size:1rem"><img width="25" height="25" src="https://img.icons8.com/ios/50/minus.png" alt="minus" onclick="minus(@obj.Cart_itemId)" /></button>
+                    <span class="mx-2 fs-4  p-3 px-4" id="quantity_@obj.Cart_itemId"> @obj.quantity</span>
+                    <button class="btn btn-outline-info p-3 px-4"><img width="25" height="25" src="https://img.icons8.com/ios/50/plus--v1.png" alt="plus--v1" onclick="plus(@obj.Cart_itemId)" /></button>
+                </td>
+                <td>
+                    @obj.ProductPrice
+                </td>
+                <td>
+                    <button class="btn btn-warning">
+                        <a asp-controller="Cart" asp-action="DeleteCart_item" asp-route-id="@obj.Cart_itemId">
+                            <img width="25" height="25" src="https://img.icons8.com/plasticine/100/filled-trash.png" alt="filled-trash" />
+                        </a>
+                    </button>
+                    <button class="btn btn-primary"><img width="25" height="25" src="https://img.icons8.com/pastel-glyph/64/loop.png" alt="loop" /></button>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button class="btn btn-info"> Buy the Cart </button>
+
+<script>
+    function minus(cart_itemid)
+    {
+      
+        $.ajax({
+            url: "/Cart/Minuscart_item",
+            type:"POST",
+            data:{cart_itemid:cart_itemid},
+            sucess:function(data)
+            {
+                $("#quantity_" + cart_itemid).text(data);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
+    }
+    funtion plus(cart_itemid,userid)
+    {
+        $.ajax({
+            url: "/Cart/pluscart_item",
+            type: "POST",
+            data: { cart_itemid: cart_itemid },
+            sucess: function (data) {
+                $("#quantity_" + cart_itemid).text(data);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
+    }
+</script>

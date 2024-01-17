@@ -27,21 +27,34 @@ namespace Ecommerce.Controllers
             _cartService = cartService;
             _user = user;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-       
 
         [HttpPost]
-        public IActionResult AddtoCart(int productId)
+        public IActionResult Minuscart_item(int cart_itemid)
+        {
+            CreateCart_itemVM createCart_ItemVM=_cartItemsService.GetCreateCart_ItembyID(cart_itemid);
+            createCart_ItemVM.quantity = createCart_ItemVM.quantity - 1;
+            createCart_ItemVM = _cartItemsService.updateCart_item(createCart_ItemVM);
+            return Json(createCart_ItemVM.quantity);
+        }
+        [HttpPost]
+        public IActionResult pluscart_item(int cart_itemid)
+        {
+            CreateCart_itemVM createCart_ItemVM = _cartItemsService.GetCreateCart_ItembyID(cart_itemid);
+            createCart_ItemVM.quantity = createCart_ItemVM.quantity + 1;
+            createCart_ItemVM = _cartItemsService.updateCart_item(createCart_ItemVM);
+            return Json(createCart_ItemVM.quantity);
+        }
+
+
+        [HttpPost]
+        public IActionResult AddtoCart(ViewProductVM viewProductVM)
         {
             
             //get the productdetail
-            ReadProductVM readProductVM = _productService.GetReadProductVM(productId);
+            ReadProductVM readProductVM = _productService.GetReadProductVM(viewProductVM.ProductID);
             string userId = _user.GetUserId(User);
             // check if user has cart or not //user's cart is empty
-            if (_cartService.IsCartEmpty(userId))
+             if (_cartService.IsCartEmpty(userId))
             {
                 CreatecartVM _createcartVM = new()
                 {
@@ -56,7 +69,7 @@ namespace Ecommerce.Controllers
                 CreateCart_itemVM createCart_ItemVM = new()
                 {
                     CartId = createcartVM.CartId,
-                    ProductId = productId,
+                    ProductId = viewProductVM.ProductID,
                     quantity = 1
                 };
                 CreateCart_itemVM createCart_ItemVM1 = _cartItemsService.CreateCart_item(createCart_ItemVM);
@@ -64,16 +77,90 @@ namespace Ecommerce.Controllers
                 // update the cart with the total 
                 createcartVM.total = readProductVM.SellPrice;
                 ReadCartVM readCart=_cartService.UpdateCart(createcartVM);
-                return Json(readCart);
+               
+                return Json(viewProductVM);
 
             }
             else
             {
+                //get cart detail
+                ReadCartVM readCartVM = _cartService.ReadCart(userId);
+                //check if the same product is in the cart or not.
+                if((_cartService.IsproductIncart(readProductVM.ProductID,userId)))
+                {
+                    int tobeupadatequantity = _cartService.GetQuantityofSameProduct(readCartVM.CartId, readProductVM.ProductID, _user.GetUserId(User));
+                    int cart_itemid = _cartItemsService.getCartitemid(readCartVM.CartId, _user.GetUserId(User), readProductVM.ProductID);
+                    //upadate the cartitem table.
+                    CreateCart_itemVM createCart_ItemVM = new()
+                    {
+                        CartId = readCartVM.CartId,
+                        Cart_itemId = cart_itemid,
+                        ProductId = readProductVM.ProductID,
+                        quantity = tobeupadatequantity + 1
+                    };
+                    createCart_ItemVM = _cartItemsService.updateCart_item(createCart_ItemVM);
+                    // update the cart
+                    //get the sellprice of the product
 
-                return Json(0);
+                    readCartVM.total = readCartVM.total + viewProductVM.SellPrice;
+                    CreatecartVM createcartVM = new()
+                    {
+                        CartId = readCartVM.CartId,
+                        UserId = _user.GetUserId(User),
+                        total = readCartVM.total
+                    };
+                    readCartVM = _cartService.UpdateCart(createcartVM);
+                    return Json(viewProductVM);
+                    //////
+                    //if empty create new cart_item
+                   
+
+                }
+               
+                //if yes upadate the quantity.
+                else
+                {
+                    CreateCart_itemVM createCartItemVM = new()
+                    {
+                        CartId = readCartVM.CartId,
+                        ProductId = viewProductVM.ProductID,
+                        quantity = 1
+                    };
+                    createCartItemVM = _cartItemsService.CreateCart_item(createCartItemVM);
+                    readCartVM.total = readCartVM.total + viewProductVM.SellPrice;
+                    CreatecartVM createcartVM = new()
+                    {
+                        CartId = readCartVM.CartId,
+                        UserId = userId,
+                        total = readCartVM.total,
+                    };
+
+                    readCartVM = _cartService.UpdateCart(createcartVM);
+                    return Json(viewProductVM);
+                }
+                
             }
 
            
+        }
+        public IActionResult ViewCart(string userid)
+        {
+            
+            List<ViewCart_itemVM> viewCart_=_cartItemsService.GetCart_item(userid);
+            foreach(var cart_item in viewCart_)
+            {
+                cart_item.imgLink = _productService.GetProductByID(cart_item.ProductId).imageLink;
+                cart_item.ProductPrice=_productService.GetPrice(cart_item.ProductId);
+                cart_item.productname = _productService.GetProductByID(cart_item.ProductId).ProductName;
+
+            }
+            return View(viewCart_);
+        }
+        public IActionResult DeleteCart_item(int id)
+        {
+            _cartItemsService.DeleteCart_item(id);
+           
+            return RedirectToAction("Index", "Home");
         }
     }
 }

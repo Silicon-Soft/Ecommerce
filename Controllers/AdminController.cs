@@ -41,5 +41,19 @@ namespace Ecommerce.Controllers
             return View();
         }
 
+        public IActionResult AddCompany()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddCompany(CreateShippingVM createShippingVM)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+            return View();
+        }
+
     }
 }

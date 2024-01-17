@@ -11,5 +11,8 @@ namespace Ecommerce.Services.Interface
         CreatecartVM Createcart(CreatecartVM createcartVM);
         ReadCartVM ReadCart(string id);
         ReadCartVM UpdateCart(CreatecartVM createcartVM);
+        bool IsproductIncart(int productId,string userid);
+
+        int GetQuantityofSameProduct(int cartid,int productid,string userid);
     }
 }

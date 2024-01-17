@@ -24,6 +24,7 @@ namespace Ecommerce.Controllers
         public IActionResult Index(string searching="")
         {
             List<ViewProductVM> products = _productService.GetProducts();
+
             if (string.IsNullOrEmpty(searching))
             {
                 return View(products);
@@ -50,7 +51,6 @@ namespace Ecommerce.Controllers
             }
 
             ReadProductVM readProductVM=_productService.GetReadProductVM(id);
-
             if (readProductVM == null)
             {
                 return NotFound();

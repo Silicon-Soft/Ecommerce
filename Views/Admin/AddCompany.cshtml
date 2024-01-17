@@ -1,0 +1,45 @@
+﻿@model Ecommerce.ViewModel.CreateShippingVM
+<h1>Add Shipping Company</h1>
+
+
+<form method="post" asp-action="AddProduct" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+           
+            <hr />
+            <div class="mb-3 row">
+                <label asp-for="ShippingName"></label>
+                <input asp-for="ShippingName" class="form-control" />
+                <span asp-validation-for="ShippingName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="ShippingAddress"></label>
+                <input asp-for="ShippingAddress" class="form-control" />
+                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="phonenumber"></label>
+                <input asp-for="phonenumber" class="form-control" />
+                <span asp-validation-for="phonenumber" class="text-danger"></span>
+            </div>
+            
+
+
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-primary col-6" type="submit" style="width:150px">
+                        Create
+                    </button>
+                </div>
+
+                <div class="col-6">
+                    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">
+                        GO-BACK
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

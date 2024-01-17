@@ -6,9 +6,17 @@
             <img src="@Url.Content($"~/Product/{Model.imageLink}")" alt="@Model.ProductName" class="img-fluid" style="height:400px; " />
     </div>
     <div class="col-4" style="background-color:azure">
-            <h3 style="font-family:'Times New Roman', Times, serif">@Model.ProductName</h3>
+        <div>   
+            <div>
+                <a class="btn btn-outline-success" onclick="createdata(@Model)">Add to cart</a>
+            </div>
+        <h3 style="font-family:'Times New Roman', Times, serif">@Model.ProductName</h3>
              <h4>Description:</h4>
             @Model.ProductDescription
+        </div>
+        <div>
+            <a>add</a>
+        </div>
         
     </div>
     
@@ -32,3 +40,28 @@
 
 </div>
 </div>
+<script>
+    var ReadProductVM = @Html.Raw(Json.Serialize(Model));
+    function createdata(obj) {
+        console.log(obj);
+        submitform(obj);
+    }
+
+    function submitform(obj) {
+        console.log(obj);
+        $.ajax({
+            url: "/Cart/AddtoCart",
+            type: "POST",
+            data: obj,
+            success: function (data) {
+                alert(data['productName']);
+
+                console.log(data);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
+    }
+
+</script>

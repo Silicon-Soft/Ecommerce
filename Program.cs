@@ -31,6 +31,7 @@ namespace Ecommerce
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICart_ItemsService, Cart_ItemsService>();
+            builder.Services.AddScoped<IShippingService, ShippingService>();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

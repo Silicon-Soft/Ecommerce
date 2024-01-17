@@ -19,6 +19,14 @@ namespace Ecommerce.Services.Implementation
             _genericReopsitory = genericReopsitory;
             _mapper = mapper;
         }
+        public decimal GetPrice(int Productid)
+        {
+            List<Product> products = _genericReopsitory.GetAll();
+            var query= from product in products where product.ProductID==Productid select product;
+            return query.First().SellPrice;
+
+            
+        }
         public CreateProductVM Addproduct(CreateProductVM createProductVM)
         {
             try

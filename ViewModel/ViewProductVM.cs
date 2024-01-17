@@ -1,5 +1,6 @@
 ﻿
 
+using Ecommerce.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -17,6 +18,8 @@ using System.ComponentModel.DataAnnotations.Schema;
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+        
+        
 
 
     }
