@@ -1,0 +1,41 @@
+﻿@model List<Ecommerce.ViewModel.ViewCart_itemVM>
+<h1>Your Order List</h1>
+
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+                ProductName
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+            
+
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+        @foreach(var obj in Model)
+        {
+            <tr>
+
+
+                <td>
+                   @obj.productname
+                </td>
+                <td>
+                   @obj.quantity
+                </td>
+                <td >
+                   @obj.ProductPrice
+                </td>
+               
+
+            </tr>
+        }
+    </tbody>
+
+</table>

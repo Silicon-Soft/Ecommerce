@@ -6,7 +6,7 @@ using Ecommerce.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Xml.Schema;
 
 namespace Ecommerce.Controllers
 {
@@ -34,7 +34,21 @@ namespace Ecommerce.Controllers
             CreateCart_itemVM createCart_ItemVM=_cartItemsService.GetCreateCart_ItembyID(cart_itemid);
             createCart_ItemVM.quantity = createCart_ItemVM.quantity - 1;
             createCart_ItemVM = _cartItemsService.updateCart_item(createCart_ItemVM);
-            return Json(createCart_ItemVM.quantity);
+            ReadCartVM readCartVM = _cartService.ReadCart(_user.GetUserId(User));
+            ReadProductVM readProductVM = _productService.GetReadProductVM(createCart_ItemVM.ProductId);
+            CreatecartVM createcartVM = new()
+            {
+                CartId = createCart_ItemVM.CartId,
+                UserId=_user.GetUserId(User),
+                total=readCartVM.total-readProductVM.SellPrice
+            };
+            readCartVM = _cartService.UpdateCart(createcartVM);
+            var jsondata = new
+            {
+                quantity=createCart_ItemVM.quantity,
+                total=readCartVM.total
+            };
+            return Json(jsondata);
         }
         [HttpPost]
         public IActionResult pluscart_item(int cart_itemid)
@@ -42,9 +56,22 @@ namespace Ecommerce.Controllers
             CreateCart_itemVM createCart_ItemVM = _cartItemsService.GetCreateCart_ItembyID(cart_itemid);
             createCart_ItemVM.quantity = createCart_ItemVM.quantity + 1;
             createCart_ItemVM = _cartItemsService.updateCart_item(createCart_ItemVM);
-            return Json(createCart_ItemVM.quantity);
+            ReadCartVM readCartVM = _cartService.ReadCart(_user.GetUserId(User));
+            ReadProductVM readProductVM = _productService.GetReadProductVM(createCart_ItemVM.ProductId);
+            CreatecartVM createcartVM = new()
+            {
+                CartId = createCart_ItemVM.CartId,
+                UserId = _user.GetUserId(User),
+                total = readCartVM.total + readProductVM.SellPrice
+            };
+            readCartVM = _cartService.UpdateCart(createcartVM);
+            var jsondata = new
+            {
+                quantity = createCart_ItemVM.quantity,
+                total = readCartVM.total
+            };
+            return Json(jsondata);
         }
-
 
         [HttpPost]
         public IActionResult AddtoCart(ViewProductVM viewProductVM)
@@ -138,10 +165,7 @@ namespace Ecommerce.Controllers
                     readCartVM = _cartService.UpdateCart(createcartVM);
                     return Json(viewProductVM);
                 }
-                
             }
-
-           
         }
         public IActionResult ViewCart(string userid)
         {
@@ -152,15 +176,47 @@ namespace Ecommerce.Controllers
                 cart_item.imgLink = _productService.GetProductByID(cart_item.ProductId).imageLink;
                 cart_item.ProductPrice=_productService.GetPrice(cart_item.ProductId);
                 cart_item.productname = _productService.GetProductByID(cart_item.ProductId).ProductName;
+                cart_item.total = _cartService.ReadCart(userid).total;
 
             }
             return View(viewCart_);
         }
-        public IActionResult DeleteCart_item(int id)
+        [HttpPost]
+        public IActionResult DeleteCart_item(int cart_itemid)
         {
-            _cartItemsService.DeleteCart_item(id);
-           
-            return RedirectToAction("Index", "Home");
+            CreateCart_itemVM createCart_ItemVM=_cartItemsService.GetCreateCart_ItembyID(cart_itemid);
+            decimal price = _productService.GetPrice(createCart_ItemVM.ProductId);
+            decimal pricetobereduced = price * createCart_ItemVM.quantity;
+            ReadCartVM readCartVM = _cartService.ReadCart(_user.GetUserId(User));
+            CreatecartVM createcartVM = new()
+            {
+                CartId =createCart_ItemVM.CartId,
+                UserId=_user.GetUserId(User),
+                total=readCartVM.total-pricetobereduced
+            };
+            readCartVM= _cartService.UpdateCart(createcartVM);
+            _cartItemsService.DeleteCart_item(cart_itemid);
+
+            var jsondata = new
+            {
+                cartitem_id = createCart_ItemVM.Cart_itemId,
+                total = readCartVM.total
+            };
+
+            return Json(jsondata);
+        }
+        public IActionResult BuyCart()
+        {
+            ReadCartVM readCartVM = _cartService.ReadCart(_user.GetUserId(User));
+            List<ViewCart_itemVM> cart_ItemVMs = _cartItemsService.GetCart_item(_user.GetUserId(User));
+            foreach(var obj in cart_ItemVMs)
+            {
+                obj.total = readCartVM.total;
+                obj.productname = _productService.GetReadProductVM(obj.ProductId).ProductName;
+                obj.ProductPrice = _productService.GetPrice(obj.ProductId);
+            }
+
+            return View(cart_ItemVMs);
         }
     }
 }

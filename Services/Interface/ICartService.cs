@@ -14,5 +14,6 @@ namespace Ecommerce.Services.Interface
         bool IsproductIncart(int productId,string userid);
 
         int GetQuantityofSameProduct(int cartid,int productid,string userid);
+
     }
 }

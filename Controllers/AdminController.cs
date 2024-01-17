@@ -14,11 +14,13 @@ namespace Ecommerce.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public AdminController(ICategoryService categoryService,IProductService productService, IWebHostEnvironment hostingEnvironment)
+        private readonly IShippingService _shippingService;
+        public AdminController(ICategoryService categoryService,IProductService productService, IWebHostEnvironment hostingEnvironment, IShippingService shippingService)
         {
             _categoryService = categoryService;
             _productService = productService;
             _hostingEnvironment = hostingEnvironment;
+            _shippingService = shippingService;
         }
         public IActionResult Index()
         {
@@ -50,7 +52,8 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                createShippingVM = _shippingService.CreateShipping(createShippingVM);
+                return RedirectToAction("Index");
             }
             return View();
         }
