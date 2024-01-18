@@ -57,6 +57,11 @@ namespace Ecommerce.Controllers
             }
             return View();
         }
-
+        public IActionResult ViewShippingCompany()
+        {
+            List<ViewShippingCompanyVM> viewShippingCompanyVMs = _shippingService.GetAllShippingCompany();
+            return View(viewShippingCompanyVMs);
+        }
+       
     }
 }

@@ -4,17 +4,6 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @model List<Ecommerce.ViewModel.ViewCart_itemVM>
-@if (TempData["Delete"] != null)
-{
-
-    <dialog open>
-        <form method="dialog">
-
-            <h1 class="alert-success">@TempData["Delete"]</h1>
-            <button type="submit">OK</button>
-        </form>
-    </dialog>
-}
 <h1>Your Cart
 <img width="50" height="50" src="https://img.icons8.com/ios/50/shopping-cart.png" alt="shopping-cart" /></h1>
 
@@ -52,9 +41,9 @@
                     @obj.productname
                 </td>
                 <td class="d-flex align-items-center">
-                    <button class="btn btn-outline-info p-3 px-4" style="font-size:1rem" onclick="minus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/minus.png" alt="minus" /></button>
+                    <button id="minusbtn_@obj.Cart_itemId" class="btn btn-outline-info p-3 px-4" style="font-size:1rem" onclick="minus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/minus.png" alt="minus" /></button>
                     <span class="mx-2 fs-4  p-3 px-4" id="quantity_@obj.Cart_itemId"> @obj.quantity</span>
-                    <button class="btn btn-outline-info p-3 px-4" onclick="plus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/plus--v1.png" alt="plus--v1" /></button>
+                    <button id="plusbtn_@obj.Cart_itemId" class="btn btn-outline-info p-3 px-4" onclick="plus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/plus--v1.png" alt="plus--v1" /></button>
                 </td>
                 <td>
                     @obj.ProductPrice
@@ -82,15 +71,15 @@
 </div>
 @if (Model.Count()!=0)
 {
-    <a class="btn btn-primary" asp-controller="Cart" asp-action="BuyCart" >Buy the Cart</a>
+    <a id="buycart"  class="btn btn-primary" asp-controller="Cart" asp-action="BuyCart" >Buy the Cart</a>
 }
 else
 {
-    <h2>Cart is Empty</h2>
+    <h2 id="ifnull">Cart is Empty</h2>
 }
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <strong class="me-auto">Delete</strong>
             <small>Now</small>
@@ -113,7 +102,15 @@ else
             success:function(data)
             {
                 $("#quantity_" + cart_itemid).text(data.quantity);
-                $("#totalamount").text(data.total);
+                
+                if (data.total == "0") {
+                    $("#totalamount").text(data.total);
+                    $("#ifnull").text("Cart Empty");
+                    $("#buycart").hide();
+
+                } else {
+                    $("#totalamount").text(data.total);
+                }
             },
             error: function (err) {
                 console.error(err);
@@ -130,7 +127,15 @@ else
             success: function (data) {
                 console.log(data);
                 $("#quantity_" + cart_itemid).text(data.quantity);
-                $("#totalamount").text(data.total);
+                if (data.total == "0"|| data.quantity==0) {
+                    $("#totalamount").text(data.total);
+                   
+                   
+                    $("#ifnull").text("Cart Empty");
+                } else {
+                    $("#totalamount").text(data.total);
+                    $("#buycart").show();
+                }
             },
             error: function (err) {
                 console.error(err);
@@ -151,7 +156,14 @@ else
             success: function (data) {
                 $("#item_" + data.cartitem_id).remove();
                 showToast();
-                $("#totalamount").text(data.total);
+                if (data.total == "0") {
+                    $("#totalamount").text(data.total);
+                    $("#ifnull").text("Cart Empty");
+                    $("#buycart").hide();
+                } else {
+                    $("#totalamount").text(data.total);
+                   
+                }
             },
             error: function (err) 
             {

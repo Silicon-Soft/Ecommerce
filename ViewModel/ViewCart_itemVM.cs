@@ -16,6 +16,7 @@ namespace Ecommerce.ViewModel
         public int quantity { get; set; }
         public string imgLink { get; set; }
         public string productname { get; set; }
+        public decimal basitotal { get; set; }
         public decimal total { get; set; }
     }
 }

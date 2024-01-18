@@ -1,0 +1,54 @@
+﻿@model List<Ecommerce.ViewModel.ViewShippingCompanyVM>
+<h1>View Shipping Company</h1>
+<div class="col-7 p-3">
+    <a asp-controller="Admin" asp-action="AddCompany" class="btn btn-primary">
+        Add New Shipping Company
+    </a>
+
+</div>
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+                Shipping Company Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Contact Number
+            </th>
+         
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+        @foreach(var obj in Model)
+        {
+
+            <tr id="company_@obj.ShippingId">
+                <td>
+                    @obj.ShippingName         
+                </td>
+                <td>
+                @obj.ShippingAddress
+                </td>
+                <td>
+                   @obj.phonenumber
+                </td>
+                <td>
+                    <div class="p-1 btn-group" role="group">
+                        <a asp-controller="Admin" asp-action="EditCompany" asp-route-id="" class="btn btn-edit bg-white mx-2">
+                            Edit
+                        </a>
+                        <a asp-controller="Admin" asp-action="DeleteCompany" asp-route-id="" class="btn btn-danger mx-2">
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

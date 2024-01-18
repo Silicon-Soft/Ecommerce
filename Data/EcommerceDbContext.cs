@@ -18,6 +18,7 @@ namespace Ecommerce.Data
         public DbSet<ShippingCompany> ShippingCompanies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Cart_item> CartItems { get; set; }
+        public DbSet<Order_item> Order_Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

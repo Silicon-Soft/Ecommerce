@@ -32,5 +32,11 @@ namespace Ecommerce.Services.Implementation
             
 
         }
+        public List<ViewShippingCompanyVM> GetAllShippingCompany()
+        {
+            List<ShippingCompany> shippingCompanies=_genericReopsitory.GetAll().ToList();
+            List<ViewShippingCompanyVM> viewShippingCompanyVMs = _mapper.Map<List<ViewShippingCompanyVM>>(shippingCompanies);
+            return viewShippingCompanyVMs;
+        }
     }
 }

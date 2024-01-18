@@ -33,14 +33,18 @@
             <button class="btn btn-outline-success my-2 my-sm-0 ms-5 " type="submit" >Search</button>
         </form>
        
-        <button  class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3" >
+        
              <a asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">
+
+                <button class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3">
             <span class="position-absolute">
                 @cart_temservice.getCartItemQuantity(UserManager.GetUserId(User))
-            </span>
+                
+                </span>
             <img src="~/Product/cart.svg" />
+            </button>
             </a>
-        </button>
+      
         
         
      </div>
