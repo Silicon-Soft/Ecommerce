@@ -1,5 +1,17 @@
 ﻿@model List<Ecommerce.ViewModel.ViewShippingCompanyVM>
 <h1>View Shipping Company</h1>
+
+@if (TempData["Delete"] != null)
+{
+
+    <dialog open>
+        <form method="dialog">
+
+            <h1 class="alert-success">@TempData["Delete"]</h1>
+            <button type="submit">OK</button>
+        </form>
+    </dialog>
+}
 <div class="col-7 p-3">
     <a asp-controller="Admin" asp-action="AddCompany" class="btn btn-primary">
         Add New Shipping Company
@@ -40,10 +52,10 @@
                 </td>
                 <td>
                     <div class="p-1 btn-group" role="group">
-                        <a asp-controller="Admin" asp-action="EditCompany" asp-route-id="" class="btn btn-edit bg-white mx-2">
+                        <a asp-controller="Admin" asp-action="EditCompany" asp-route-id="@obj.ShippingId" class="btn btn-edit bg-white mx-2">
                             Edit
                         </a>
-                        <a asp-controller="Admin" asp-action="DeleteCompany" asp-route-id="" class="btn btn-danger mx-2">
+                        <a asp-controller="Admin" asp-action="DeleteCompany" asp-route-id="@obj.ShippingId" class="btn btn-danger mx-2">
                             Delete
                         </a>
                     </div>

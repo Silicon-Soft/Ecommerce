@@ -62,6 +62,17 @@ namespace Ecommerce.Controllers
             List<ViewShippingCompanyVM> viewShippingCompanyVMs = _shippingService.GetAllShippingCompany();
             return View(viewShippingCompanyVMs);
         }
-       
+        public IActionResult DeleteCompany(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            _shippingService.Deleteshipping(id);
+            TempData["Delete"] = "Record Deleted Successfully !";
+            return RedirectToAction("ViewShippingCompany", "Admin");
+        }
+
+
     }
 }

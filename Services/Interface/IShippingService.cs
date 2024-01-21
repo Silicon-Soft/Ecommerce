@@ -6,5 +6,7 @@ namespace Ecommerce.Services.Interface
     {
         CreateShippingVM CreateShipping(CreateShippingVM createShippingVM);
         List<ViewShippingCompanyVM> GetAllShippingCompany();
+        void Deleteshipping(int id);
+        ViewShippingCompanyVM Getshipping(int id);
     }
 }

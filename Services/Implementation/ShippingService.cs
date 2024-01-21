@@ -38,5 +38,15 @@ namespace Ecommerce.Services.Implementation
             List<ViewShippingCompanyVM> viewShippingCompanyVMs = _mapper.Map<List<ViewShippingCompanyVM>>(shippingCompanies);
             return viewShippingCompanyVMs;
         }
+        public void Deleteshipping(int id)
+        {
+            _genericReopsitory.Delete(id);
+        }
+        public ViewShippingCompanyVM Getshipping(int id)
+        {
+            ShippingCompany shippingCompany=_genericReopsitory.GetById(id);
+            ViewShippingCompanyVM viewShippingCompanyVM=_mapper.Map<ViewShippingCompanyVM>(shippingCompany);    
+            return viewShippingCompanyVM;
+        }
     }
 }

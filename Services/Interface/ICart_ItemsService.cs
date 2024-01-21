@@ -11,5 +11,6 @@ namespace Ecommerce.Services.Interface
         CreateCart_itemVM updateCart_item(CreateCart_itemVM createCart_ItemVM);
         CreateCart_itemVM GetCreateCart_ItembyID(int id);
         void DeleteCart_item(int id);
+        void DeleteListofCart_item(List<ViewCart_itemVM> viewCart_ItemVMs);
     }
 }

@@ -88,6 +88,20 @@ namespace Ecommerce.Services.Implementation
             CreateCart_itemVM createCart_ItemVM=_mapper.Map<CreateCart_itemVM>(cart_Item);
             return createCart_ItemVM;
         }
+        public void DeleteListofCart_item(List<ViewCart_itemVM> viewCart_ItemVMs)
+        {
+            try
+            {
+                foreach (var viewitem in viewCart_ItemVMs)
+                {
+                    DeleteCart_item(viewitem.Cart_itemId);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public void DeleteCart_item(int id)
         {
             _genericReopsitory.Delete(id);

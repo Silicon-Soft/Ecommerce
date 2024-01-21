@@ -54,9 +54,88 @@
 </table>
 <div class="d-flex justify-content-between">
 <h1>Total:@Model.FirstOrDefault().total</h1>
-    <a class="btn btn-info justify-content-center border border-1"><img width="20" height="20" src="https://img.icons8.com/material/24/shopping-basket-success.png" alt="shopping-basket-success" />Check out </a>
-    <a class="btn btn-info" asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">GO Back</a>
+    <a class="btn btn-info justify-content-center border border-1" onclick="showPopup()"><img width="20" height="20" src="https://img.icons8.com/material/24/shopping-basket-success.png" alt="shopping-basket-success" />Check out </a>
+    <a class="btn btn-info" asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">CANCEL ORDER</a>
 </div>
+<div id="myModal" class="modal modal-fullscreen-xl-down" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter the Details:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border p-3 mt-4 ">
+                <input type="tel" id="mobileNumber" name="mobileNumber" class="mb-3 row" pattern="[0-9]{10}" maxlength="10" placeholder="Enter your mobile Number" required>
+                <select class="form-select mb-3 row" id="shippingCompaniesSelect" name="shippingCompanies"> </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="checkout('@UserManager.GetUserId(User)')">Confirm the Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
+
+    function showPopup() {
+        debugger
+        const modalContent = document.getElementById('modalContent');
+        const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        myModal.show();
+        fetchaddress();
+    }
+
+    function fetchaddress() {
+        debugger
+        $.ajax({
+            url: "/Order/provideaddress",
+            type: "GET",
+            success: function (data) {
+                $('#shippingCompaniesSelect').empty();
+                const res=JSON.parse(data)
+                console.log("Data received:", res);
+                for(let i=0;i<res.length;i++)
+                {
+                    console.log(res[i]);
+                    $('#shippingCompaniesSelect').append($('<option>', {
+                        value: res[i].id,
+                        text: res[i].address
+                    }));
+                }
+               
+            },
+            error: function (err) {
+                console.error("Error fetching data:", err);
+            }
+        });
+    }
+    function checkout(userid) {
+        var number = $('#mobileNumber').val();
+        var address = $('#shippingCompaniesSelect').val();
+        console.log(typeof(number));
+        console.log(typeof(address));
+        console.log(typeof(userid));
+
+        $.ajax({
+            url: "/Order/PlaceOrder",
+            type: "GET",
+            data: {
+                userid: userid,
+                number: number,
+                address: address
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
+    }
+    
+
+   
     
 </script>
