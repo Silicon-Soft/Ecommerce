@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using AutoMapper.Execution;
 using Ecommerce.GenericRepository.Interface;
 using Ecommerce.Models;
 using Ecommerce.Services.Interface;
 using Ecommerce.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 
 namespace Ecommerce.Services.Implementation
@@ -16,8 +18,10 @@ namespace Ecommerce.Services.Implementation
         private readonly ICartService _cartService;
         private readonly ICart_ItemsService _cart_ItemsService;
         private readonly IProductService _productService;
-        public OrderService(IGenericReopsitory<Order> genericReopsitory,IMapper mapper,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService)
+        private readonly UserManager<User> _userManager;
+        public OrderService(UserManager<User> userManager,IGenericReopsitory<Order> genericReopsitory,IMapper mapper,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService)
         {
+            _userManager = userManager;
             _mapper = mapper;
             _genericReopsitory = genericReopsitory;
             _productService = productService;
@@ -58,6 +62,31 @@ namespace Ecommerce.Services.Implementation
             createOrderVM = CreateOrder(createOrderVM);
             return createOrderVM;
         }
+        public async Task<IEnumerable<ViewOrderVM>> GetAllOrder()
+        {
+            IQueryable<Order> orders = _genericReopsitory.GetDatas();
+            IEnumerable<Order> allOrders = orders.ToList();
+            IEnumerable<ViewOrderVM> viewOrderVMs = _mapper.Map<IEnumerable<ViewOrderVM>>(allOrders);
+
+            foreach (var order in viewOrderVMs)
+            {
+                User user = await _userManager.FindByIdAsync(order.UserId);
+
+                if (user != null)
+                {
+                    // Adjust property names based on your ApplicationUser model
+                    order.Fullname = user.firstname + " " + user.lastname;
+                }
+                else
+                {
+                    // Handle the case where the user is not found, for example, set a default full name.
+                    order.Fullname = "User Not Found";
+                }
+            }
+
+            return viewOrderVMs;
+        }
+
 
 
     }

@@ -53,7 +53,15 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-between">
-<h1>Total:@Model.FirstOrDefault().total</h1>
+    @if(@Model!=null)
+    {
+        <h1>Total:@Model.FirstOrDefault().total</h1>
+    }
+    else
+    {
+        <h1>Total:0</h1>
+    }
+
     <a class="btn btn-info justify-content-center border border-1" onclick="showPopup()"><img width="20" height="20" src="https://img.icons8.com/material/24/shopping-basket-success.png" alt="shopping-basket-success" />Check out </a>
     <a class="btn btn-info" asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">CANCEL ORDER</a>
 </div>
@@ -128,11 +136,21 @@
             },
             success: function (data) {
                 console.log(data);
+                $('#myModal').modal('hide')
+                window.location.href = "/Home/Index";
+                // Check for a success response and redirect if needed
+                if (data.success) {
+                    $('#myModal').modal('hide')
+                    window.location.href = "/Home/Privacy";
+                } else {
+                    console.error("Order placement failed:", data.message);
+                }
             },
             error: function (err) {
                 console.error(err);
             }
         });
+
     }
     
 

@@ -67,5 +67,15 @@ namespace Ecommerce.Services.Implementation
             return createOrderItemVMs;
 
         }
+        public List<ViewOrderitemVM> GetOrderItemById(int id)
+        {
+            IQueryable<Order_item> order_Items=_genericReopsitory.GetDatas().Where(x => x.OrderId == id);
+            List<Order_item> order_Items1= order_Items.ToList();
+            List<ViewOrderitemVM> viewOrderitemVMs = _mapper.Map<List<ViewOrderitemVM>>(order_Items1);
+            return viewOrderitemVMs;
+
+
+
+        }
     }
 }

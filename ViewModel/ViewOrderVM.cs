@@ -10,6 +10,7 @@ namespace Ecommerce.ViewModel
         [Key]
         public int OrderId { get; set; }
         public string UserId { get; set; }
+        public string Fullname { get; set; }
         public string status { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal total { get; set; }

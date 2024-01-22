@@ -12,9 +12,11 @@ namespace Ecommerce.Services.Implementation
     {
         private readonly IGenericReopsitory<Cart_item> _genericReopsitory;
         private readonly IGenericReopsitory<Cart> _genericReopsitory_cart;
+        private readonly ICartService _cartService;
         private IMapper _mapper;
-        public Cart_ItemsService(IGenericReopsitory<Cart_item> genericReopsitory,IMapper mapper,IGenericReopsitory<Cart> genericReopsitory_cart) 
+        public Cart_ItemsService(IGenericReopsitory<Cart_item> genericReopsitory,IMapper mapper,IGenericReopsitory<Cart> genericReopsitory_cart,ICartService cartService) 
         {
+            _cartService = cartService;
             _genericReopsitory_cart = genericReopsitory_cart;
             _genericReopsitory = genericReopsitory;
             _mapper = mapper;

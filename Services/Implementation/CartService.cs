@@ -86,8 +86,15 @@ namespace Ecommerce.Services.Implementation
                       c in carts on ci.CartId equals c.CartId
                         where ci.ProductId == productid && c.UserId == userid && ci.CartId == cartid
                         select ci;
-            return query.First().quantity;
-                      
+            return query.First().quantity;                   
+        }
+        public ReadCartVM ResetCart(int cartid)
+        {
+            Cart cart=_genericReopsitory.GetById(cartid);
+            cart.total = 0;
+            cart=_genericReopsitory.Update(cart);
+            ReadCartVM readCartVM=_mapper.Map<ReadCartVM>(cart);
+            return readCartVM;
         }
     }
 }

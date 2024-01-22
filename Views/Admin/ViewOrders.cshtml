@@ -1,1 +1,46 @@
-﻿<h1>View All Product</h1>
+﻿@model IEnumerable<Ecommerce.ViewModel.ViewOrderVM>
+<h1>View All Orders</h1>
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Order Address
+            </th>
+            <th>
+                Customer Contact Number
+            </th>
+            <th>
+                Order Status
+            </th>
+            <th>
+               Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+      
+    @foreach(var obj in Model.OrderBy(u=>u.status))
+    {
+            <tr id="order_@obj.OrderId">
+                <td>
+                    @obj.Fullname
+                </td>
+                <td>
+                    @obj.address
+                </td>
+                <td>
+                   @obj.customernumber
+                </td>
+                <td>
+                    @obj.status
+                </td>
+                <td>
+                    <a class="btn btn-primary"asp-controller="Admin" asp-action="ViewOrderDetail" asp-route-orderid="@obj.OrderId">View Order Details</a>
+                </td>
+            </tr>
+    }  
+    </tbody>
+</table>

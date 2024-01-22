@@ -1,0 +1,39 @@
+﻿@model List<Ecommerce.ViewModel.ViewOrderitemVM>
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+              Product Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Basic Total
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+    @foreach(var obj in @Model)
+    {
+            <tr >
+                <td>
+                    @obj.productname
+                </td>
+                <td>
+                    @obj.quantity
+                </td>
+                <td>
+                    @obj.basictotal
+                </td>
+                
+            </tr>
+    }
+    </tbody>
+ 
+
+</table>
+<h1>Total:
+    @Model.Sum(item => item.basictotal)
+</h1>
