@@ -1,4 +1,8 @@
-﻿<h1>
+﻿@using Ecommerce.Models
+@using Ecommerce.Services.Interface
+@inject IShippingService _shippingservice
+@model List<Ecommerce.ViewModel.ViewOrderVM>
+<h1>
     Your Orders
 </h1>
 <table class="table table-bordered table-striped ">
@@ -6,7 +10,7 @@
         <tr>
         
             <th>
-                Order Address
+               OrderId
             </th>
             <th>
                 Contact Number
@@ -20,21 +24,39 @@
         </tr>
     </thead>
     <tbody class="bg-white">
-
-            <tr >
+    @foreach(var obj in Model)
+    {
+            <tr>
                 <td>
-
+                    @obj.OrderId
                 </td>
                 <td>
+                    @obj.address<br>
+                    @_shippingservice.Getshipping(obj.ShippingId).ShippingName<br>
+                    @_shippingservice.Getshipping(obj.ShippingId).phonenumber
+                </td>
+                <td class="">
+                    
+                    @if (obj.status == "Not Delivered")
+                    {
+                    <div><img width="35" height="35" src="https://img.icons8.com/plumpy/24/successful-delivery.png" alt="successful-delivery" /></div>@obj.status
+                    }
+                    else if (obj.status == "delivered")
+                    {
+                        <img width="35" height="35" src="https://img.icons8.com/stickers/100/delivered-box.png" alt="delivered-box" /> <p>Order Delivered</p>
+                    }
+                    else
+                    {
+                        <img width="35" height="35" src="https://img.icons8.com/ios-filled/50/checked-truck.png" alt="checked-truck" />
 
+                        <p>On the Way</p>
+                    }
                 </td>
                 <td>
-
+                    <a class="btn btn-info" asp-controller="Order" asp-action="UserOrderItem" asp-route-orderId="@obj.OrderId">View Your Order</a>
                 </td>
-                <td>
-              
-                </td>
+               
             </tr>
-        
+    }   
     </tbody>
 </table>

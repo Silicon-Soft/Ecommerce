@@ -43,6 +43,24 @@ namespace Ecommerce.Services.Implementation
             ViewOrderVM viewOrderVM=_mapper.Map<ViewOrderVM>(order);
             return viewOrderVM;
         }
+        public List<ViewOrderVM> GetOrderByUserid(string userid)
+        {
+            IQueryable<Order> orders=_genericReopsitory.GetDatas().Where(u=>u.UserId==userid);
+            List<Order> orders1 = orders.ToList();
+            List<ViewOrderVM> viewOrderVMs = _mapper.Map<List<ViewOrderVM>>(orders1);
+            return viewOrderVMs;
+
+        }
+        public ViewOrderVM UpdateStatus(ViewOrderVM viewOrderVM)
+        {
+          
+
+            var order = _genericReopsitory.GetById(viewOrderVM.OrderId);
+            var updatedorder=_mapper.Map<ViewOrderVM,Order>(viewOrderVM, order);
+            order = _genericReopsitory.Update(updatedorder);
+            viewOrderVM =_mapper.Map<ViewOrderVM>(order) ;
+            return viewOrderVM;
+        }
         public CreateOrderVM InitiateOrder(String userid, string customerNumber, string shipping)
         {
             int shippingid = int.Parse(shipping);

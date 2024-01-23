@@ -15,6 +15,7 @@
             <th>
                 Order Status
             </th>
+            <th>Update Status</th>
             <th>
                Actions
             </th>
@@ -34,13 +35,62 @@
                 <td>
                    @obj.customernumber
                 </td>
-                <td>
+                <td id="status_@obj.OrderId">
                     @obj.status
+                </td>
+                <td>
+                    <select id="orderStatus_@obj.OrderId" name="orderStatus_@obj.OrderId">
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="notDelivered">Not Delivered</option>
+                        <option value="pending">Pending</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                    <a class="btn btn-secondary" onclick="updatestatus(@obj.OrderId)">Update Status</a>
                 </td>
                 <td>
                     <a class="btn btn-primary"asp-controller="Admin" asp-action="ViewOrderDetail" asp-route-orderid="@obj.OrderId">View Order Details</a>
                 </td>
+                
             </tr>
     }  
     </tbody>
 </table>
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Status Updated</strong>
+            <small>Now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Sucessfully Updated
+        </div>
+    </div>
+</div>
+<script>
+    function updatestatus(OrderId)
+    {
+        var status = $('#orderStatus_' + OrderId).val();
+        $.ajax({
+            url: "/Order/UpdateStatus",
+            data:{
+                orderId:OrderId,
+                status:status
+            },
+            success:function(data)
+            {
+                $('#status_'+data.orderid).text(data.orderstatus);
+                showToast();
+            },
+            error:function(err)
+            {
+                console.error(err);
+            }
+        });
+
+    }
+    function showToast() {
+        var toastElement = new bootstrap.Toast(document.getElementById('liveToast'));
+        toastElement.show();
+    }
+</script>

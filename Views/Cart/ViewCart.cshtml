@@ -40,7 +40,7 @@
                 <td>
                     @obj.productname
                 </td>
-                <td class="d-flex align-items-center">
+                <td class="d-flex align-items-center" style="height:115px">
                     <button id="minusbtn_@obj.Cart_itemId" class="btn btn-outline-info p-3 px-4" style="font-size:1rem" onclick="minus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/minus.png" alt="minus" /></button>
                     <span class="mx-2 fs-4  p-3 px-4" id="quantity_@obj.Cart_itemId"> @obj.quantity</span>
                     <button id="plusbtn_@obj.Cart_itemId" class="btn btn-outline-info p-3 px-4" onclick="plus(@obj.Cart_itemId)"><img width="25" height="25" src="https://img.icons8.com/ios/50/plus--v1.png" alt="plus--v1" /></button>

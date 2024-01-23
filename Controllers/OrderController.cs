@@ -46,8 +46,28 @@ namespace Ecommerce.Controllers
         }
         public IActionResult UserOrder()
         {
+            string userid = _userManager.GetUserId(User);
+            List<ViewOrderVM> viewOrderVMs=_orderService.GetOrderByUserid(userid);
+            return View(viewOrderVMs);
+        }
+        public IActionResult UserOrderItem(int orderId) 
+        {
+            List<ViewOrderitemVM> viewOrderitemVMs=_orderItemService.GetOrderItemById(orderId);
+            return View(viewOrderitemVMs);
+        }
+        public IActionResult UpdateStatus(int orderId,string status)
+        {
+            ViewOrderVM viewOrderVM=_orderService.GetOrderById(orderId);
+            viewOrderVM.status=status;
+            viewOrderVM = _orderService.UpdateStatus(viewOrderVM);
+            var data = new
+            {
+                orderid=orderId,
+                orderstatus=status
+            };
+            return Json(data);
             
-            return View();
+
         }
 
         [HttpGet]
