@@ -29,9 +29,12 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ecommerce</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                         style="width:80;" alt="logo">
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -59,15 +62,65 @@
             <partial name="_LoginPartial.cshtml" />
         </nav>
     </header>
-    <div class="container">
+    <div class="">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer-10">
+       
         <div class="container">
-            &copy; 2023 - Ecommerce - <a href="https://siliconsoftnepal.com.np/">Silicon Soft Nepal</a>
+
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3  mb-md-0 mb-4">
+                            <h2 class="footer-heading">About</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="d-block">Out story</a></li>
+                                <li><a href="#" class="d-block">Awards</a></li>
+                                <li><a href="#" class="d-block">Our Team</a></li>
+                                <li><a href="#" class="d-block">Career</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-md-0 mb-4">
+                            <h2 class="footer-heading">Company</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="d-block">Our services</a></li>
+                                <li><a href="#" class="d-block">Clients</a></li>
+                                <li><a href="#" class="d-block">Contact</a></li>
+                                <li><a href="#" class="d-block">Press</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-md-0 mb-4">
+                            <h2 class="footer-heading">Contact Us</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="d-block">ecoadmin@gmail.com</a></li>
+                                <li><a href="#" class="d-block">+977-01455256 | 9856561478</a></li>
+                                <li><a href="#" class="d-block">Shantinagar,Baneshswor</a></li>
+                                <li><a class="d-block">Nepal</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-md-0 mb-4">
+                        <h2 class="footer-heading">Social</h2>
+                        <ul class="list-unstyled d-flex">
+                                <li class="mx-2"><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/facebook-new.png" alt="facebook-new" /></li>
+                                <li class="mx-2"><img width="35" height="35" src="https://img.icons8.com/ios-glyphs/30/tiktok.png" alt="tiktok" /></li>
+                                <li class="mx-2"><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/instagram-new.png" alt="facebook-new" /></li>
+
+                        </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-top footer text-muted">
+                    &copy; 2024 - Ecommerce
+                </div>
+          
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -77,3 +130,13 @@
     
 </body>
 </html>
+<style>
+li a{
+    color:black !important;
+    text-decoration:none;
+}
+li a :hover {
+    color:deepskyblue !important;
+    text-decoration:underline !important;
+}
+</style>

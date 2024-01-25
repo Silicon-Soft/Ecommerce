@@ -1,22 +1,27 @@
-﻿<h1>Welcome to the Admin Pannel.</h1>
-
-<div class="col-8 p-3">
-    <a asp-controller="Admin" asp-action="AddCategory" class="btn btn-primary">
-        Create New Category
-    </a>
-    <a asp-controller="Product" asp-action="AddProduct" class="btn btn-primary">
-        Create New Product
-    </a>
-    <a asp-controller="Product" asp-action="ViewProduct" class="btn btn-primary">
-        All Products
-    </a>
-    <a asp-controller="Admin" asp-action="ViewOrders" class="btn btn-primary">
-        All Orders
-    </a>
-    <a asp-controller="Admin" asp-action="ViewShippingCompany" class="btn btn-primary">
-       View Shipping Company
-    </a>
-
+﻿<div class=" h-75" style="width:5%;background: rgb(245, 245, 245);">
+    <ul class="list-unstyled">
+        <li class="align-items-center mb-5 menu-item align-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+            </svg>
+            
+        </li>
+        
+        <li class="mx-1"><a><img width="48" height="48" src="https://img.icons8.com/color/48/product--v1.png" alt="product--v1" /><p class="fs-6">Category</p></a>
+        </li>
+        
+       
+        <li><img width="48" height="48" src="https://img.icons8.com/isometric/50/product.png" alt="product" />
+            <p class="fs-6">Product</p>
+        </li>
+        <li><img width="50" height="50" src="https://img.icons8.com/ios/50/in-transit.png" alt="in-transit" />
+            <p class="fs-6">Shipping</p>
+        </li>
+        <li>
+            <img width="48" height="48" src="https://img.icons8.com/material-outlined/24/purchase-order.png" alt="purchase-order" />
+            <p class="fs-6">Orders</p>
+        </li>
+    </ul>
 </div>
 
     @if (TempData["ResultOk"] != null)
@@ -34,5 +39,35 @@
 
         
     }
+    <style>
+        li{
+            cursor:pointer;
+        }
+        .menu-item
+        {
+            border:2px solid grey;
 
+        }
+        .menu-item:hover{
+            background:rgb(1,2,8);
+            color:white;
+
+        }
+        .menu-items:hover{
+
+        }
+
+    .offcanvas {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Start off-canvas menu off-screen */
+        width: 250px;
+        height: 100%;
+        background: rgb(245, 245, 245);
+        transition: left 0.3s ease;
+    }
+
+    .menu-button {
+        cursor: pointer;
+    </style>
 

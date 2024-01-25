@@ -7,6 +7,7 @@ using Ecommerce.GenericRepository.Interface;
 using Ecommerce.Services.Interface;
 using Ecommerce.Services.Implementation;
 using Microsoft.Extensions.Options;
+using Ecommerce.Security;
 
 namespace Ecommerce
 {
@@ -34,6 +35,7 @@ namespace Ecommerce
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ICart_ItemsService, Cart_ItemsService>();
             builder.Services.AddScoped<IShippingService, ShippingService>();
+            builder.Services.AddSingleton<DataProtectionPurposeStrings>();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

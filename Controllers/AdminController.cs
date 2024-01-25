@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PagedList.Mvc;
+using PagedList;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
+using System.Drawing.Printing;
 
 namespace Ecommerce.Controllers
 {
@@ -45,13 +50,11 @@ namespace Ecommerce.Controllers
 
         }
 
-        public async Task<IActionResult> ViewOrders()
+        public async Task<IActionResult> ViewOrders(int page=1,int pagesize=5)
         {
-           IEnumerable<ViewOrderVM> viewOrderVMs =await _orderService.GetAllOrder();
-
-            
-
-            return View(viewOrderVMs);
+            IEnumerable<ViewOrderVM> viewOrderVMs = await _orderService.GetAllOrder();
+            var model = await viewOrderVMs.ToPagedListAsync(page, pagesize);
+            return View(model);
         }
         
 

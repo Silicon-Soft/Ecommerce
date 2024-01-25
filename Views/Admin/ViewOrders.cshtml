@@ -1,8 +1,16 @@
-﻿@model IEnumerable<Ecommerce.ViewModel.ViewOrderVM>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Ecommerce.ViewModel.ViewOrderVM>
+<script src="~/Scripts/PagedList/jquery.pagedList.js"></script>
+<link rel="stylesheet" href="~/Content/PagedList.css" />
+
 <h1>View All Orders</h1>
+<div class="container">
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
         <tr>
+            <th>
+                Order Id
+            </th>
             <th>
                 Customer Name
             </th>
@@ -16,16 +24,29 @@
                 Order Status
             </th>
             <th>Update Status</th>
+            <th>Order Placed Date</th>
             <th>
                Actions
             </th>
         </tr>
     </thead>
     <tbody class="bg-white">
-      
-    @foreach(var obj in Model.OrderBy(u=>u.status))
+
+        @foreach (var obj in Model.OrderBy(u =>
+        {
+           if (u.status == "Not Delivered")
+                return 3;
+            else if (u.status == "pending")
+                return 2;
+            else
+                return 1;
+
+        }))
     {
             <tr id="order_@obj.OrderId">
+                <td>
+                    @obj.OrderId
+                </td>
                 <td>
                     @obj.Fullname
                 </td>
@@ -39,14 +60,33 @@
                     @obj.status
                 </td>
                 <td>
-                    <select id="orderStatus_@obj.OrderId" name="orderStatus_@obj.OrderId">
-                        <option value="" disabled selected>Select Status</option>
-                        <option value="notDelivered">Not Delivered</option>
-                        <option value="pending">Pending</option>
-                        <option value="delivered">Delivered</option>
-                    </select>
-                    <a class="btn btn-secondary" onclick="updatestatus(@obj.OrderId)">Update Status</a>
+                    @if (obj.status == "Not Delivered" || obj.status=="notDelivered")
+                    {
+                        <select id="orderStatus_@obj.OrderId" name="orderStatus_@obj.OrderId">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="notDelivered">Not Delivered</option>
+                            <option value="pending">Pending</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                        <a class="btn btn-secondary" onclick="updatestatus(@obj.OrderId)">Update Status</a>
+                    }else if(obj.status=="pending")
+                    {
+                        <select id="orderStatus_@obj.OrderId" name="orderStatus_@obj.OrderId">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                        <a class="btn btn-primary" onclick="updatestatus(@obj.OrderId)">Update Status</a>
+                    }else
+                    {
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path style="background-color:green" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg>
+                        <h4 style="color:forestgreen"><i>Delivered</i></h4>
+                    }
                 </td>
+                <td>@obj.dateTime</td>
                 <td>
                     <a class="btn btn-primary"asp-controller="Admin" asp-action="ViewOrderDetail" asp-route-orderid="@obj.OrderId">View Order Details</a>
                 </td>
@@ -55,6 +95,17 @@
     }  
     </tbody>
 </table>
+    <div class="col-md-12">
+        <div id="container" style="margin-left: 20px">
+            <p></p>
+            <p></p>
+            <div class="pagination-container" >
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("ViewOrders", new { page }))
+            </div>
+        </div>
+    </div>
+</div>
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -67,6 +118,8 @@
         </div>
     </div>
 </div>
+
+
 <script>
     function updatestatus(OrderId)
     {
@@ -79,8 +132,18 @@
             },
             success:function(data)
             {
-                $('#status_'+data.orderid).text(data.orderstatus);
-                showToast();
+                if (data==null)
+                {
+                    alert("Select the status:");
+                }else
+                {
+                    $('#status_'+data.orderid).text(data.orderstatus);
+                    showToast();
+                    if (data.orderstatus == "delivered")
+                    {
+                        location.reload();
+                    }
+                }
             },
             error:function(err)
             {
@@ -94,3 +157,38 @@
         toastElement.show();
     }
 </script>
+<style>
+ 
+    .pagination-container
+    {
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+    .pagination-container ul li{
+        
+        margin:0 5px;
+        padding:0 10px;
+        background:white;
+            font-size: 25;
+       
+    }
+
+    .pagination-container ul li a
+    {
+        color: black !important;
+        text-decoration: none;
+    }
+    
+
+    .pagination-container li.active {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .pagination-container li:hover:not(.active) {
+        background-color: #ddd;
+        border-radius: 5px;
+    }
+    </style>

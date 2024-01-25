@@ -34,10 +34,10 @@
 
 
 </table>
-<div class="d-flex">
+<div class="d-flex justify-content-between align-items-center">
 <h1>
     Total:
     @Model.Sum(item => item.basictotal)
 </h1>
-<a class="btn btn-primary" asp-controller="Order" asp-action="UserOrder">Go Back</a>
+<a class="btn btn-primary py-0" asp-controller="Order" asp-action="UserOrder">Go Back</a>
 </div>

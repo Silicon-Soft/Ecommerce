@@ -1,10 +1,15 @@
 ﻿@using Ecommerce.Models
 @using Ecommerce.Services.Interface
 @inject IShippingService _shippingservice
-@model List<Ecommerce.ViewModel.ViewOrderVM>
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Ecommerce.ViewModel.ViewOrderVM>
+<script src="~/Scripts/PagedList/jquery.pagedList.js"></script>
+<link rel="stylesheet" href="~/Content/PagedList.css" />
+<div>
 <h1>
     Your Orders
 </h1>
+
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
         <tr>
@@ -24,7 +29,7 @@
         </tr>
     </thead>
     <tbody class="bg-white">
-    @foreach(var obj in Model)
+            @foreach (var obj in Model.OrderByDescending(u => u.dateTime))
     {
             <tr>
                 <td>
@@ -60,3 +65,46 @@
     }   
     </tbody>
 </table>
+<div class="col-md-12">
+    <div id="container" style="margin-left: 20px">
+        <p></p>
+        <p></p>
+        <div class="pagination-container">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("UserOrder", new { page }))
+        </div>
+    </div>
+</div>
+</div>
+<style>
+
+    .pagination-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .pagination-container ul li {
+            margin: 0 5px;
+            padding: 0 10px;
+            background: white;
+            font-size: 25;
+        }
+
+            .pagination-container ul li a {
+                color: black !important;
+                text-decoration: none;
+            }
+
+
+        .pagination-container li.active {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .pagination-container li:hover:not(.active) {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+</style>

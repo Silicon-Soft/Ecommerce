@@ -1,11 +1,14 @@
 ﻿using Ecommerce.Models;
+using Ecommerce.Security;
 using Ecommerce.Services.Implementation;
 using Ecommerce.Services.Interface;
 using Ecommerce.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using X.PagedList;
 
 namespace Ecommerce.Controllers
 {
@@ -20,9 +23,13 @@ namespace Ecommerce.Controllers
         private readonly ICart_ItemsService _cart_ItemsService;
         private readonly IProductService _productService;
         private readonly UserManager<User> _userManager;
+        private readonly IDataProtectionProvider _dataProtectionProvider;
+
         
-       public OrderController(UserManager<User> userManager,IOrderService orderService,IOrderItemService orderItemService,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService) 
+       public OrderController(DataProtectionPurposeStrings dataProtectionPurposeStrings, IDataProtectionProvider dataProtectionProvider,UserManager<User> userManager,IOrderService orderService,IOrderItemService orderItemService,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService) 
         {
+            dataProtectionProvider = dataProtectionProvider
+                .CreateProtector(dataProtectionPurposeStrings.EcommerceIdRouteValue);
             _userManager = userManager;
             _productService = productService;
             _cart_ItemsService= cart_ItemsService;
@@ -44,12 +51,14 @@ namespace Ecommerce.Controllers
             var jsonresult=JsonConvert.SerializeObject(companies);
             return Json(jsonresult);
         }
-        public IActionResult UserOrder()
+        public async Task<IActionResult> UserOrder(int page = 1, int pagesize = 5)
         {
             string userid = _userManager.GetUserId(User);
             List<ViewOrderVM> viewOrderVMs=_orderService.GetOrderByUserid(userid);
-            return View(viewOrderVMs);
+            var model =await viewOrderVMs.ToPagedListAsync(page, pagesize);
+            return View(model);
         }
+
         public IActionResult UserOrderItem(int orderId) 
         {
             List<ViewOrderitemVM> viewOrderitemVMs=_orderItemService.GetOrderItemById(orderId);
@@ -57,16 +66,21 @@ namespace Ecommerce.Controllers
         }
         public IActionResult UpdateStatus(int orderId,string status)
         {
-            ViewOrderVM viewOrderVM=_orderService.GetOrderById(orderId);
-            viewOrderVM.status=status;
-            viewOrderVM = _orderService.UpdateStatus(viewOrderVM);
-            var data = new
+            if (orderId != 0 && status != null)
             {
-                orderid=orderId,
-                orderstatus=status
-            };
-            return Json(data);
-            
+                ViewOrderVM viewOrderVM = _orderService.GetOrderById(orderId);
+                viewOrderVM.status = status;
+                viewOrderVM = _orderService.UpdateStatus(viewOrderVM);
+                var data = new
+                {
+                    orderid = orderId,
+                    orderstatus = status
+                };
+                return Json(data);
+            }else
+            {
+                return Json(null);
+            }
 
         }
 
