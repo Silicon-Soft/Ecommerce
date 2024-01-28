@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Drawing.Printing;
 using X.PagedList;
 
 namespace Ecommerce.Controllers
@@ -23,13 +24,11 @@ namespace Ecommerce.Controllers
         private readonly ICart_ItemsService _cart_ItemsService;
         private readonly IProductService _productService;
         private readonly UserManager<User> _userManager;
-        private readonly IDataProtectionProvider _dataProtectionProvider;
 
         
-       public OrderController(DataProtectionPurposeStrings dataProtectionPurposeStrings, IDataProtectionProvider dataProtectionProvider,UserManager<User> userManager,IOrderService orderService,IOrderItemService orderItemService,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService) 
+       public OrderController(UserManager<User> userManager,IOrderService orderService,IOrderItemService orderItemService,IShippingService shippingService,ICartService cartService,ICart_ItemsService cart_ItemsService,IProductService productService) 
         {
-            dataProtectionProvider = dataProtectionProvider
-                .CreateProtector(dataProtectionPurposeStrings.EcommerceIdRouteValue);
+            
             _userManager = userManager;
             _productService = productService;
             _cart_ItemsService= cart_ItemsService;
@@ -57,6 +56,19 @@ namespace Ecommerce.Controllers
             List<ViewOrderVM> viewOrderVMs=_orderService.GetOrderByUserid(userid);
             var model =await viewOrderVMs.ToPagedListAsync(page, pagesize);
             return View(model);
+        }
+        public IActionResult SearchOrders(int orderId)
+        {
+            ViewOrderVM viewOrderVM = _orderService.GetOrderById(orderId);
+            if (viewOrderVM == null)
+            {
+                return Json(0); 
+            }
+            else
+            {
+                
+                return Json(viewOrderVM.OrderId);
+            }
         }
 
         public IActionResult UserOrderItem(int orderId) 

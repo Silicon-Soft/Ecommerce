@@ -3,7 +3,9 @@
     ViewData["Title"] = "ViewProduct";
 }
 @model List<ViewProductVM>
-
+<div class="d-flex">
+    <div class="mt-4"> @Html.Partial("~/Views/Admin/_MenuPartial.cshtml")</div>
+<div class="container">
 <h1>ViewProduct</h1>
 <div class="col-7 p-3">
     <a asp-controller="Product" asp-action="AddProduct" class="btn btn-primary">
@@ -86,4 +88,5 @@
         }
     </tbody>
 </table>
-
+</div>
+</div>

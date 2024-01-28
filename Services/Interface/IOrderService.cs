@@ -10,5 +10,8 @@ namespace Ecommerce.Services.Interface
         ViewOrderVM GetOrderById(int id);
         CreateOrderVM InitiateOrder(String userid, string customerNumber, string shippingid);
         ViewOrderVM UpdateStatus(ViewOrderVM viewOrderVM);
+        int GetNumberofOrder();
+
+        List<ViewOrderVM> GetPendingOrders();
     }
 }

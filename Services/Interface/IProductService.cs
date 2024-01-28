@@ -15,5 +15,6 @@ namespace Ecommerce.Services.Interface
         string GetLinkById(int id);
         
         decimal GetPrice(int Productid);
+        List<ViewProductVM> GetProductBycategory(int categoryid);
     }
 }

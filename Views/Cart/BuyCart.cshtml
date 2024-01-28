@@ -4,7 +4,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @model List<Ecommerce.ViewModel.ViewCart_itemVM>
-
+<div class="container">
 <h1 class="row-3 px-4">Confirmed Items</h1>
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
@@ -64,6 +64,7 @@
 
     <a class="btn btn-info justify-content-center border border-1" onclick="showPopup()"><img width="20" height="20" src="https://img.icons8.com/material/24/shopping-basket-success.png" alt="shopping-basket-success" />Check out </a>
     <a class="btn btn-info" asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">CANCEL ORDER</a>
+</div>
 </div>
 <div id="myModal" class="modal modal-fullscreen-xl-down" tabindex="-1">
     <div class="modal-dialog">

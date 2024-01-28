@@ -42,6 +42,14 @@ namespace Ecommerce.Services.Implementation
             
 
         }
+        public List<ViewProductVM> GetProductBycategory(int categoryid)
+        {
+            IEnumerable<Product> products=_genericReopsitory.GetDatas().Where(x=>x.CategoryId==categoryid);
+            var products1=products.ToList();
+            List<ViewProductVM> viewProductVMs = _mapper.Map<List<ViewProductVM>>(products1);
+            return viewProductVMs;
+
+        }
         public List<ViewProductVM> GetProducts()
         {
             try

@@ -1,15 +1,18 @@
-﻿@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<Ecommerce.ViewModel.ViewOrderVM>
-<script src="~/Scripts/PagedList/jquery.pagedList.js"></script>
-<link rel="stylesheet" href="~/Content/PagedList.css" />
-
+﻿@model IEnumerable<Ecommerce.ViewModel.ViewOrderVM>
+<div class="d-flex">
+    <div class="mt-4"> @Html.Partial("_MenuPartial")</div>
+<div class="container mt-1 justify-content-center">
 <h1>View All Orders</h1>
 <div class="container">
+        <div class="mb-3 w-50 d-flex">
+            <input type="text" class="form-control" id="orderIdSearch" placeholder="Serach By OrderNumber">
+            <button class="btn btn-primary mx-2" onclick="searchOrders()">Search</button>
+        </div>
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
         <tr>
             <th>
-                Order Id
+                Order Number
             </th>
             <th>
                 Customer Name
@@ -30,16 +33,16 @@
             </th>
         </tr>
     </thead>
-    <tbody class="bg-white">
+    <tbody class="bg-white" id="tbody">
 
         @foreach (var obj in Model.OrderBy(u =>
         {
            if (u.status == "Not Delivered")
-                return 3;
+                return 1;
             else if (u.status == "pending")
                 return 2;
             else
-                return 1;
+                return 3;
 
         }))
     {
@@ -95,19 +98,14 @@
     }  
     </tbody>
 </table>
-    <div class="col-md-12">
-        <div id="container" style="margin-left: 20px">
-            <p></p>
-            <p></p>
-            <div class="pagination-container" >
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-                of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("ViewOrders", new { page }))
-            </div>
-        </div>
-    </div>
+        <div class="btn btn-close mx-5 border border-5 border-warning" id="goback" style="display:none;" onclick="location.reload();">Back</div>
+</div>
+   
+
+</div>
 </div>
 <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="liveToast" class="toast bg-success" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <strong class="me-auto">Status Updated</strong>
             <small>Now</small>
@@ -151,6 +149,31 @@
             }
         });
 
+    }
+    function searchOrders() {
+        var orderId = $('#orderIdSearch').val();
+        $.ajax({
+            url: "/Order/SearchOrders",
+            data: { orderId: orderId },
+            success: function (data) {
+                if (data==0) {
+                    $('#tbody').html("<tr><td colspan='8'>No Order Found</td></tr>")
+                    $('#goback').show();
+                }
+                else
+                {
+                    $('tbody tr').hide();
+
+
+                    $('#order_' + data).show();
+                    $('#goback').show();
+                    
+                }
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
     }
     function showToast() {
         var toastElement = new bootstrap.Toast(document.getElementById('liveToast'));

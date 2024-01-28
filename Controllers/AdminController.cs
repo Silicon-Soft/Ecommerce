@@ -50,13 +50,12 @@ namespace Ecommerce.Controllers
 
         }
 
-        public async Task<IActionResult> ViewOrders(int page=1,int pagesize=5)
+        public async Task<IActionResult> ViewOrders()
         {
             IEnumerable<ViewOrderVM> viewOrderVMs = await _orderService.GetAllOrder();
-            var model = await viewOrderVMs.ToPagedListAsync(page, pagesize);
-            return View(model);
+            return View(viewOrderVMs);
         }
-        
+
 
 
         public IActionResult AddCompany()
@@ -93,7 +92,16 @@ namespace Ecommerce.Controllers
             List<ViewOrderitemVM> viewOrderitemVMs=_orderItemService.GetOrderItemById(orderid);
             return View(viewOrderitemVMs);
         }
-
+        public IActionResult ViewCategory()
+        {
+            List<ViewCategoryVM> viewCategoryVMs=_categoryService.GetCategories();
+            return View(viewCategoryVMs);
+        }
+        public IActionResult ViewProductByCategoryId(int categoryId)
+        {
+            List<ViewProductVM> viewProductVMs=_productService.GetProductBycategory(categoryId);
+            return View(viewProductVMs);
+        }
 
     }
 }

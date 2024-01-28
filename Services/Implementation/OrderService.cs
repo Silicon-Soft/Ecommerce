@@ -29,6 +29,18 @@ namespace Ecommerce.Services.Implementation
             _cartService = cartService;
             _cart_ItemsService  = cart_ItemsService;
         }
+        public int GetNumberofOrder()
+        {
+            List<Order> orders=_genericReopsitory.GetAll().ToList();
+            return orders.Count;
+        }
+        public List<ViewOrderVM> GetPendingOrders()
+        {
+            IQueryable<Order> orders = _genericReopsitory.GetDatas().Where(x => x.status == "pending");
+            var orders1 = orders.ToList();
+            List<ViewOrderVM> viewOrderVMs=_mapper.Map<List<ViewOrderVM>>(orders1);
+            return viewOrderVMs;
+        }
         public CreateOrderVM CreateOrder(CreateOrderVM createOrderVM)
         {
             Order order=_mapper.Map<Order>(createOrderVM);
@@ -95,11 +107,7 @@ namespace Ecommerce.Services.Implementation
                     // Adjust property names based on your ApplicationUser model
                     order.Fullname = user.firstname + " " + user.lastname;
                 }
-                else
-                {
-                    // Handle the case where the user is not found, for example, set a default full name.
-                    order.Fullname = "User Not Found";
-                }
+                
             }
 
             return viewOrderVMs;

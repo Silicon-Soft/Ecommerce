@@ -4,6 +4,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @model List<Ecommerce.ViewModel.ViewCart_itemVM>
+<div class="container">
 <h1>Your Cart
 <img width="50" height="50" src="https://img.icons8.com/ios/50/shopping-cart.png" alt="shopping-cart" /></h1>
 
@@ -77,7 +78,7 @@ else
 {
     <h2 id="ifnull">Cart is Empty</h2>
 }
-
+</div>
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">

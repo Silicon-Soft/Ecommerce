@@ -1,0 +1,64 @@
+﻿<div class="" style="height:80%; width:5%;background: rgb(245, 245, 245);">
+    <ul class="list-unstyled">
+
+
+        <li class="mx-1 menu-items">
+            <a asp-controller="Admin" asp-action="ViewCategory"><img width="48" height="48" src="https://img.icons8.com/color/48/product--v1.png" alt="product--v1" /><p class="fs-6">Category</p></a>
+        </li>
+
+
+        <li class="mx-1 menu-items">
+            <a asp-controller="Product" asp-action="ViewProduct"> <img width="48" height="48" src="https://img.icons8.com/isometric/50/product.png" alt="product" /></a>
+            <p class="fs-6">Product</p>
+        </li>
+        <li class="mx-1 menu-items">
+            <a asp-controller="Admin" asp-action="ViewShippingCompany">
+                <img width="50" height="50" src="https://img.icons8.com/ios/50/in-transit.png" alt="in-transit" />
+                <p class="fs-6">Shipping</p>
+            </a>
+        </li>
+        <li class="mx-1 menu-items">
+            <a asp-controller="Admin" asp-action="ViewOrders">
+                <img width="48" height="48" src="https://img.icons8.com/material-outlined/24/purchase-order.png" alt="purchase-order" />
+                <p class="fs-6">Orders</p>
+            </a>
+        </li>
+    </ul>
+</div>
+<style>
+    .admin-fd {
+        border: 1px solid;
+    }
+
+    li {
+        cursor: pointer;
+    }
+
+    .menu-item {
+        border: 2px solid grey;
+    }
+
+        .menu-item:hover {
+            background: rgb(1,2,8);
+            color: white;
+        }
+
+    .menu-items:hover {
+        transform: scale(1.2);
+        transition: 1s all;
+    }
+
+    .offcanvas {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Start off-canvas menu off-screen */
+        width: 250px;
+        height: 100%;
+        background: rgb(245, 245, 245);
+        transition: left 0.3s ease;
+    }
+
+    .menu-button {
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,36 @@
+﻿@model List<Ecommerce.ViewModel.ViewCategoryVM>
+<div class="d-flex">
+<div class="mt-4"> @Html.Partial("_MenuPartial")</div>
+<div class="container mt-1 justify-content-center">
+<a class="btn btn-primary mb-2" asp-controller="Admin" asp-action="AddCategory">Add Category</a> 
+<table class="table table-bordered table-striped ">
+    <thead class="text-bg-dark">
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                All the Products
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+        @foreach (var view in Model)
+        {
+
+            <tr>
+                <td>
+                    @view.CategoryName
+                </td>
+                <td>
+                        <a asp-controller="Admin" asp-action="ViewProductByCategoryId" asp-route-categoryId="@view.CategoryId" class="btn btn-info">View products of @view.CategoryName</a>
+                </td>
+               
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>
+</div>

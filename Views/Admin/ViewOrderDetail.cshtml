@@ -1,4 +1,5 @@
 ﻿@model List<Ecommerce.ViewModel.ViewOrderitemVM>
+<div class="container">
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
         <tr>
@@ -37,3 +38,5 @@
 <h1>Total:
     @Model.Sum(item => item.basictotal)
 </h1>
+<a asp-controller="Admin" asp-action="ViewOrders" class="btn btn-outline-primary">Go Back</a>
+</div>

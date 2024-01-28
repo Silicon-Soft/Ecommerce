@@ -1,28 +1,47 @@
-﻿<div class=" h-75" style="width:5%;background: rgb(245, 245, 245);">
-    <ul class="list-unstyled">
-        <li class="align-items-center mb-5 menu-item align-content-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-            </svg>
-            
-        </li>
-        
-        <li class="mx-1"><a><img width="48" height="48" src="https://img.icons8.com/color/48/product--v1.png" alt="product--v1" /><p class="fs-6">Category</p></a>
-        </li>
-        
-       
-        <li><img width="48" height="48" src="https://img.icons8.com/isometric/50/product.png" alt="product" />
-            <p class="fs-6">Product</p>
-        </li>
-        <li><img width="50" height="50" src="https://img.icons8.com/ios/50/in-transit.png" alt="in-transit" />
-            <p class="fs-6">Shipping</p>
-        </li>
-        <li>
-            <img width="48" height="48" src="https://img.icons8.com/material-outlined/24/purchase-order.png" alt="purchase-order" />
-            <p class="fs-6">Orders</p>
-        </li>
-    </ul>
+﻿﻿@using Microsoft.AspNetCore.Identity
+@using Ecommerce.Models
+@using Ecommerce.Services.Interface
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IOrderService _orderServices
+@inject IProductService _productServices
+<div class="d-flex">
+    @Html.Partial("_MenuPartial")
+    <div class="conatiner">
+    <p class="fs-4 xl-1">Admin DashBoard</p>
+        <ul class="list-unstyled d-flex col-md-12">
+
+
+            <li class="mx-4">
+                <div class="admin-fd bg-light border shadow rounded-4">
+                    <p class="fs-1">Total User</p>
+                    <p class="fs-2 text-center">@UserManager.Users.Count()</p>
+                </div>
+            </li>
+
+
+            <li class="mx-4">
+                <div class="admin-fd border shadow">
+                    <p class="fs-1">Total Orders</p>
+                    <p class="fs-2  text-center">@_orderServices.GetNumberofOrder()</p>
+                </div>
+            </li>
+            <li class="mx-4">
+                <div class="admin-fd border shadow">
+                    <p class="fs-1">Total Products</p>
+                    <p class="fs-2  text-center">@_productServices.GetProducts().Count</p>
+                </div>
+            </li>
+            <li class="mx-4">
+                <div class="admin-fd border shadow">
+                    <p class="fs-1">Pending orders</p>
+                    <p class="fs-2  text-center">@_orderServices.GetPendingOrders().Count</p>
+                </div>
+            </li>
+        </ul>
 </div>
+</div>
+
 
     @if (TempData["ResultOk"] != null)
     {
@@ -39,35 +58,5 @@
 
         
     }
-    <style>
-        li{
-            cursor:pointer;
-        }
-        .menu-item
-        {
-            border:2px solid grey;
-
-        }
-        .menu-item:hover{
-            background:rgb(1,2,8);
-            color:white;
-
-        }
-        .menu-items:hover{
-
-        }
-
-    .offcanvas {
-        position: fixed;
-        top: 0;
-        left: -250px; /* Start off-canvas menu off-screen */
-        width: 250px;
-        height: 100%;
-        background: rgb(245, 245, 245);
-        transition: left 0.3s ease;
-    }
-
-    .menu-button {
-        cursor: pointer;
-    </style>
+   
 
