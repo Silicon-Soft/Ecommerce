@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Ecommerce.Models
 @using Ecommerce.Services.Interface
+@using Ecommerce.ViewModel
 @inject ICartService cartservice
 @inject ICart_ItemsService cart_temservice
+@inject ICategoryService categoryservice
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
@@ -18,6 +20,7 @@
 
         }
     }
+    List<ViewCategoryVM> viewCategoryVMs = categoryservice.GetCategories();
 }
 
 @{
@@ -28,13 +31,13 @@
 <div class="text-center" >
     <div class="d-flex justify-content-between" >
         <div></div>
-        <form  method="get" class="d-flex w-100 justify-content-center">
+        <form  method="get" class="d-flex w-100 justify-content-center mt-3">
             <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search By ProductName" aria-label="Search" name="searching">
             <button class="btn btn-outline-success my-2 my-sm-0 ms-5 " type="submit" >Search</button>
         </form>
        
         
-             <a asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">
+             <a class="mt-2" asp-controller="Cart" asp-action="ViewCart" asp-route-userid="@UserManager.GetUserId(User)">
 
                 <button class="cart-button position-relative mx-4 p-2 btn border rounded-circle px-3">
                 <span class="position-absolute">
@@ -61,8 +64,8 @@
              {
              @foreach (var obj in Model)
             {
-                
-                <div class="carousel-item active">
+
+                    <div class="carousel-item active ">
                 <div class="card">
                     <div class="img-wrapper"><img src="@Url.Content($"~/Product/{obj.imageLink}")" class="d-block " alt="..."> </div>
                         
@@ -73,7 +76,7 @@
                     
                             @if (obj.ProductDescription.Length > 40)
                             {
-                                <p class="card-text w-10 text-black">
+                                <p class="card-text w-10 text-black ">
                                   @obj.ProductDescription.Substring(0,20)..........     
                                 </p>
                             }
@@ -115,6 +118,45 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+<div class="productbyid ">
+        
+    <div class="row mx-2 mb-4">
+            <ul class="list-unstyled d-flex">
+                @foreach (var category in viewCategoryVMs)
+                {
+                    
+                        
+                        <ul class="list-unstyled">
+                            @foreach (var obj in Model.Where(p => p.CategoryId == category.CategoryId).OrderBy(p => p.ProductID))
+                            {
+                                <li class="border border-1 bg-white mx-2">
+                                <div class="d-flex flex-column align-items-center container">
+                                        <p class="text-black text-center fw-normal fs-3 mx-3 mt-2"> Explore @category.CategoryName <br />Items</p>
+                                        <img width="280" height="280" src="@Url.Content($"~/Product/{obj.imageLink}")" alt="@obj.ProductName" class="product-image container" />
+                                        <a asp-controller="Home" asp-action="ProductByCategory" asp-route-categoryId="@category.CategoryId" class="getmore btn text-decoration-none text-primary"> Get More</a>
+                                    </div>
+                            </li>
+                            break;
+                        }
+                        </ul>
+                        
+                    
+                }
+            </ul>
+
+        </div>
 </div>
 
+</div>
+<style>
+    .getmore :hover{
+        transform: scale(1.2);
+        text-decoration:underline;
+    }
+    .productbyid
+    {
+        
+       background-color: rgb(245, 245, 245);
+    }
+</style>
 

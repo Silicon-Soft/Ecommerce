@@ -1,5 +1,7 @@
 ﻿@model EditProductVM
-<div >
+<div class="d-flex">
+<div class="mt-4"> @Html.Partial("~/Views/Admin/_MenuPartial.cshtml")</div>
+<div class="container">
     <form method="post" class="d-flex" enctype="multipart/form-data">
         <input asp-for="ProductID" hidden />
         <div class="border p-3 mt-4 w-50">
@@ -42,4 +44,5 @@
         </div>
         
     </form>
+</div>
 </div>

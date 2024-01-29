@@ -76,6 +76,11 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+    public IActionResult ProductByCategory(int categoryId)
+        {
+            List<ViewProductVM> viewProductVMs=_productService.GetProductBycategory(categoryId);
+            return View(viewProductVMs);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -7,35 +7,35 @@
 @inject IProductService _productServices
 <div class="d-flex">
     @Html.Partial("_MenuPartial")
-    <div class="conatiner">
+    <div class="conatiner w-100 px-5">
     <p class="fs-4 xl-1">Admin DashBoard</p>
-        <ul class="list-unstyled d-flex col-md-12">
+        <ul class="list-unstyled row col">
 
 
-            <li class="mx-4">
-                <div class="admin-fd bg-light border shadow rounded-4">
-                    <p class="fs-1">Total User</p>
-                    <p class="fs-2 text-center">@UserManager.Users.Count()</p>
+            <li class=" col-md-3">
+                <div class="admin-fd border bg-secondary p-5 shadow  rounded-3">
+                    <p class="fs-5  text-center text-light">Total User</p>
+                    <p class="fs-1 text-center text-light">@UserManager.Users.Count()</p>
                 </div>
             </li>
 
 
-            <li class="mx-4">
-                <div class="admin-fd border shadow">
-                    <p class="fs-1">Total Orders</p>
-                    <p class="fs-2  text-center">@_orderServices.GetNumberofOrder()</p>
+            <li class=" col-md-3">
+                <div class="admin-fd p-5 border bg-primary  shadow rounded-3">
+                    <p class="fs-5 text-center text-light">Total Orders</p>
+                    <p class="fs-1  text-center text-light">@_orderServices.GetNumberofOrder()</p>
                 </div>
             </li>
-            <li class="mx-4">
-                <div class="admin-fd border shadow">
-                    <p class="fs-1">Total Products</p>
-                    <p class="fs-2  text-center">@_productServices.GetProducts().Count</p>
+            <li class=" col-md-3">
+                <div class="admin-fd p-5 border shadow bg-black bg-opacity-75 rounded-3">
+                    <p class="fs-5  text-center text-light">Total Products</p>
+                    <p class="fs-1  text-center text-light">@_productServices.GetProducts().Count</p>
                 </div>
             </li>
-            <li class="mx-4">
-                <div class="admin-fd border shadow">
-                    <p class="fs-1">Pending orders</p>
-                    <p class="fs-2  text-center">@_orderServices.GetPendingOrders().Count</p>
+            <li class="col-md-3">
+                <div class="admin-fd p-5 border shadow bg-warning rounded-3">
+                    <p class="fs-5  text-center text-light">Pending orders</p>
+                    <p class="fs-1  text-center text-light">@_orderServices.GetPendingOrders().Count</p>
                 </div>
             </li>
         </ul>
@@ -59,4 +59,6 @@
         
     }
    
+    <script>
 
+    </script>

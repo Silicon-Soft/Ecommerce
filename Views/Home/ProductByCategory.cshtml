@@ -1,0 +1,17 @@
+﻿@model List<ViewProductVM>
+<div class="container row mt-3">
+    <ul class="list-unstyled d-flex">
+    @foreach(var obj in Model)
+    {
+        <li class="mx-2 ">
+                <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@obj.ProductID">
+                <div class="d-flex flex-column align-items-center container border border-1">
+                    <p class="text-black text-center fw-normal fs-3 mx-3 mt-2">@obj.ProductName</p>
+                    <img width="250" height="250" src="@Url.Content($"~/Product/{obj.imageLink}")" alt="@obj.ProductName" class="product-image container" />
+                    <p class="bg-success fw-light text-white mt-2 ">Rs.@obj.SellPrice</p>
+                </div>
+                </a>
+            </li>
+    }
+    </ul>
+</div>

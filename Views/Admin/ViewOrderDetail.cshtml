@@ -1,4 +1,6 @@
 ﻿@model List<Ecommerce.ViewModel.ViewOrderitemVM>
+<div class="d-flex">
+    <div class="mt-4"> @Html.Partial("_MenuPartial")</div>
 <div class="container">
 <table class="table table-bordered table-striped ">
     <thead class="text-bg-dark">
@@ -39,4 +41,5 @@
     @Model.Sum(item => item.basictotal)
 </h1>
 <a asp-controller="Admin" asp-action="ViewOrders" class="btn btn-outline-primary">Go Back</a>
+</div>
 </div>

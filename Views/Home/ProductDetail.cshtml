@@ -2,8 +2,9 @@
 @using Ecommerce.Models
 @inject UserManager<User> UserManager
 @model ReadProductVM;
+<div class="container mt-2">
 <div  class="btn btn-dark"><a asp-controller="Home" asp-action="Index">Back To Products</a></div>
-<div class="container border border-3" style="background-color:azure">
+<div class="container border border-3  rounded-3" style="background-color:azure">
 <div class="row">
     <div class="col-4">
             <img src="@Url.Content($"~/Product/{Model.imageLink}")" alt="@Model.ProductName" class="img-fluid" style="height:400px; " />
@@ -45,6 +46,7 @@
             </div>
         </div>
         
+</div>
 </div>
 </div>
 <div class="toast-container position-fixed top-0 end-0 p-3">

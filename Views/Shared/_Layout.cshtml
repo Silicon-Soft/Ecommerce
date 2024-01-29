@@ -11,6 +11,7 @@
         if (user != null)
         {
             isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+            
         }
     }
 }
@@ -139,4 +140,9 @@ li a :hover {
     color:deepskyblue !important;
     text-decoration:underline !important;
 }
+
+    .nav-item:hover {
+        transform:scale(1.1);
+    }
+
 </style>
